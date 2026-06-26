@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "start": "serve dist -l $PORT"
+    "start": "node serve.js"
   },
   "dependencies": {
     "lucide-react": "^1.21.0",
