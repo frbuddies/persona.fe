@@ -14,7 +14,6 @@ export default function IntroPage() {
 
   return (
     <div>
-      {/* ── Hero + Form ── */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: isDesktop ? '1.1fr 0.9fr' : '1fr',
@@ -22,7 +21,6 @@ export default function IntroPage() {
         marginBottom: '52px',
         alignItems: 'start',
       }}>
-        {/* Left: Hero copy */}
         <div style={{
           paddingTop: isDesktop ? '28px' : '0',
           display: 'flex',
@@ -63,7 +61,6 @@ export default function IntroPage() {
           }}>
             Twenty questions. All answers are right. Discover your dominant seller persona, your most likely sales role match, and the development opportunities that matter most for your growth.
           </p>
-          {/* Stats row */}
           <div style={{
             display: 'flex',
             gap: isDesktop ? '24px' : '16px',
@@ -90,7 +87,6 @@ export default function IntroPage() {
           </div>
         </div>
 
-        {/* Right: Form card */}
         {isDesktop ? (
           <div style={{
             background: '#fff',
@@ -117,14 +113,12 @@ export default function IntroPage() {
         )}
       </div>
 
-      {/* ── Persona Preview ── */}
       <SectionHeader
         title="The Six Seller Personas"
         subtitle="A quick look at each seller persona before you begin. Your results will show which one aligns most with your natural style."
       />
       <PreviewGrid items={PERSONAS} getIcon={getPersonaIcon} />
 
-      {/* ── Role Preview ── */}
       <div style={{ marginTop: '48px' }}>
         <SectionHeader
           title="The Four Sales Role Types"

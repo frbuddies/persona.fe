@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AssessmentProvider, useAssessment } from './context/AssessmentContext';
 import IntroPage from './pages/Intro';
 import AssessmentPage from './pages/Assessment';
@@ -19,32 +19,9 @@ function AssessmentFlow() {
   }
 }
 
-function NavBar() {
-  return (
-    <div style={{
-      display: 'flex', justifyContent: 'flex-end', gap: '16px',
-      padding: '12px 0', marginBottom: '8px',
-    }}>
-      <Link to="/" style={{
-        fontSize: '12px', color: '#9aa0b8', textDecoration: 'none',
-        fontWeight: '500', letterSpacing: '0.02em',
-      }}>
-        Assessment
-      </Link>
-      <Link to="/admin" style={{
-        fontSize: '12px', color: '#9aa0b8', textDecoration: 'none',
-        fontWeight: '500', letterSpacing: '0.02em',
-      }}>
-        Admin
-      </Link>
-    </div>
-  );
-}
-
 function AppLayout() {
   return (
     <div>
-      <NavBar />
       <Routes>
         <Route path="/" element={
           <AssessmentProvider>

@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, Users, RefreshCw, Calendar, Mail } from 'lucide-react';
+import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { useBreakpoints } from '../hooks/useMediaQuery';
 import { fetchAllResults } from '../data/api';
 import { PERSONAS } from '../data/personas';
 import { ROLES } from '../data/roles';
 import { getPersonaIcon } from '../utils/icons';
+import { FieldInput } from '../components/ui/Common';
+import { Button } from '../components/ui/Button';
 
 export default function AdminPage() {
+  const [authed, setAuthed] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showPw, setShowPw] = useState(false);
+  const [loginError, setLoginError] = useState('');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,11 +34,112 @@ export default function AdminPage() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { if (authed) load(); }, [authed]);
+
+  if (!authed) {
+    return (
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        minHeight: 'calc(100vh - 120px)',
+      }}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          setLoginError('');
+          if (loginEmail === 'admin@persona.com' && loginPassword === 'Admin@123') {
+            setAuthed(true);
+          } else {
+            setLoginError('Invalid email or password');
+          }
+        }} style={{
+          width: '100%', maxWidth: '420px',
+          background: '#fff',
+          border: '1.5px solid #dee6f0',
+          borderRadius: '18px',
+          padding: '40px 32px',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.05)',
+          borderLeft: '4px solid #1a5276',
+        }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
+              color: '#1a5276', fontSize: '10px', fontWeight: '700',
+              letterSpacing: '0.15em', textTransform: 'uppercase',
+              padding: '7px 16px', borderRadius: '20px',
+              marginBottom: '16px',
+            }}>
+              <Sparkles size={14} />
+              DWEnterprise
+            </div>
+            <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
+              Admin Login
+            </h1>
+            <p style={{ fontSize: '14px', color: '#9aa0b8', margin: 0 }}>
+              Sign in to access the assessment dashboard
+            </p>
+          </div>
+
+          <div style={{ marginBottom: '18px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+              Email
+            </label>
+            <FieldInput
+              value={loginEmail}
+              onChange={setLoginEmail}
+              placeholder="admin@persona.com"
+              type="email"
+            />
+          </div>
+
+          <div style={{ marginBottom: '4px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+              Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <FieldInput
+                value={loginPassword}
+                onChange={setLoginPassword}
+                placeholder="Enter your password"
+                type={showPw ? 'text' : 'password'}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw(!showPw)}
+                style={{
+                  position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+                  background: 'none', border: 'none', cursor: 'pointer', color: '#b0b8cc', padding: '4px',
+                }}
+              >
+                {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
+
+          {loginError && (
+            <div style={{
+              fontSize: '13px', color: '#d32f2f', marginTop: '14px',
+              padding: '10px 14px', background: '#fef2f2', borderRadius: '8px',
+              border: '1px solid #fecaca',
+            }}>
+              {loginError}
+            </div>
+          )}
+
+          <div style={{ marginTop: '24px' }}>
+            <Button
+              disabled={!loginEmail.trim() || !loginPassword.trim()}
+              style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <LogIn size={18} /> Sign In
+            </Button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div>
-      {/* Header */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
         marginBottom: '32px', gap: '16px', flexWrap: 'wrap',
@@ -76,7 +184,6 @@ export default function AdminPage() {
         </button>
       </div>
 
-      {/* Loading */}
       {loading && !data && (
         <div style={{ textAlign: 'center', padding: '80px 20px', color: '#9aa0b8' }}>
           <div style={{
@@ -88,7 +195,6 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Error */}
       {error && !loading && (
         <div style={{
           textAlign: 'center', padding: '60px 20px',
@@ -112,7 +218,6 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Empty */}
       {data && data.length === 0 && !loading && (
         <div style={{
           textAlign: 'center', padding: '80px 20px',
@@ -129,7 +234,6 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Results list */}
       {data && data.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {data.map((item) => (
@@ -167,7 +271,6 @@ function ResultCard({ item, isDesktop }) {
       boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
       borderLeft: `4px solid ${topPersonaData?.accent || '#b0bdd4'}`,
     }}>
-      {/* Header row */}
       <div style={{
         display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
         gap: '16px', marginBottom: '18px', flexWrap: 'wrap',
@@ -211,7 +314,6 @@ function ResultCard({ item, isDesktop }) {
         </div>
       </div>
 
-      {/* Scores */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
