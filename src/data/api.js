@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://personabe-production.up.railway.app/persona';
+const BACKEND_URL = 'https://personabe-production.up.railway.app/persona';
 
 export async function sendResultsToBackend(data) {
   try {
