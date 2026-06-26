@@ -1,4 +1,4 @@
-const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://personabe-production.up.railway.app/persona';
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://persona-be-y9g7.onrender.com/persona';
 
 export async function sendResultsToBackend(data) {
   try {
