@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, LogOut, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { useBreakpoints } from '../hooks/useMediaQuery';
-import { fetchAllResults } from '../data/api';
+import { fetchAllResults, loginUser } from '../data/api';
 import { PERSONAS } from '../data/personas';
 import { ROLES } from '../data/roles';
 import { getPersonaIcon } from '../utils/icons';
@@ -9,11 +9,14 @@ import { FieldInput } from '../components/ui/Common';
 import { Button } from '../components/ui/Button';
 
 export default function AdminPage() {
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState(localStorage.getItem('isAuth') === 'true');
+  const [clientId, setClientId] = useState(localStorage.getItem('client_id') || null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(localStorage.getItem('isSuperAdmin') === 'true');
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [loginLoading, setLoginLoading] = useState(false);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +25,8 @@ export default function AdminPage() {
   const load = () => {
     setLoading(true);
     setError(null);
-    fetchAllResults()
+    const query = isSuperAdmin ? 'isSuperAdmin=true' : `client_id=${clientId}`;
+    fetchAllResults(query)
       .then((res) => {
         if (res.success) {
           setData(res.data);
@@ -42,13 +46,24 @@ export default function AdminPage() {
         display: 'flex', justifyContent: 'center', alignItems: 'center',
         minHeight: 'calc(100vh - 120px)',
       }}>
-        <form onSubmit={(e) => {
+        <form onSubmit={async (e) => {
           e.preventDefault();
           setLoginError('');
-          if (loginEmail === 'admin@persona.com' && loginPassword === 'Admin@123') {
+          setLoginLoading(true);
+          const res = await loginUser(loginEmail, loginPassword);
+          setLoginLoading(false);
+          if (res.success) {
+            if (res.client_id) {
+              setClientId(res.client_id);
+              localStorage.setItem('client_id', res.client_id);
+            } else {
+              setIsSuperAdmin(true);
+              localStorage.setItem('isSuperAdmin', 'true');
+            }
             setAuthed(true);
+            localStorage.setItem('isAuth', 'true');
           } else {
-            setLoginError('Invalid email or password');
+            setLoginError(res.message || 'Invalid email or password');
           }
         }} style={{
           width: '100%', maxWidth: '420px',
@@ -127,7 +142,7 @@ export default function AdminPage() {
 
           <div style={{ marginTop: '24px' }}>
             <Button
-              disabled={!loginEmail.trim() || !loginPassword.trim()}
+              disabled={!loginEmail.trim() || !loginPassword.trim() || loginLoading}
               style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <LogIn size={18} /> Sign In
@@ -165,23 +180,49 @@ export default function AdminPage() {
             {data ? `${data.length} result${data.length !== 1 ? 's' : ''}` : 'Loading...'}
           </p>
         </div>
-        <button
-          onClick={load}
-          disabled={loading}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            background: '#fff', border: '1.5px solid #e4e9f2',
-            borderRadius: '10px', padding: '10px 20px',
-            fontSize: '13px', fontWeight: '600', color: '#4a5070',
-            cursor: 'pointer', fontFamily: 'inherit',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={(e) => { e.target.style.borderColor = '#1a5276'; e.target.style.color = '#1a5276'; }}
-          onMouseLeave={(e) => { e.target.style.borderColor = '#e4e9f2'; e.target.style.color = '#4a5070'; }}
-        >
-          <RefreshCw size={16} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          Refresh
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button
+            onClick={load}
+            disabled={loading}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              background: '#fff', border: '1.5px solid #e4e9f2',
+              borderRadius: '10px', padding: '10px 20px',
+              fontSize: '13px', fontWeight: '600', color: '#4a5070',
+              cursor: 'pointer', fontFamily: 'inherit',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { e.target.style.borderColor = '#1a5276'; e.target.style.color = '#1a5276'; }}
+            onMouseLeave={(e) => { e.target.style.borderColor = '#e4e9f2'; e.target.style.color = '#4a5070'; }}
+          >
+            <RefreshCw size={16} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
+            Refresh
+          </button>
+          <button
+            onClick={() => {
+              localStorage.removeItem('isAuth');
+              localStorage.removeItem('client_id');
+              localStorage.removeItem('isSuperAdmin');
+              setAuthed(false);
+              setClientId(null);
+              setIsSuperAdmin(false);
+              setData(null);
+            }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              background: '#fff', border: '1.5px solid #e4e9f2',
+              borderRadius: '10px', padding: '10px 20px',
+              fontSize: '13px', fontWeight: '600', color: '#d32f2f',
+              cursor: 'pointer', fontFamily: 'inherit',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => { e.target.style.borderColor = '#d32f2f'; e.target.style.background = '#fef2f2'; }}
+            onMouseLeave={(e) => { e.target.style.borderColor = '#e4e9f2'; e.target.style.background = '#fff'; }}
+          >
+            <LogOut size={16} />
+            Logout
+          </button>
+        </div>
       </div>
 
       {loading && !data && (

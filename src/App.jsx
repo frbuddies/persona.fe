@@ -4,6 +4,7 @@ import IntroPage from './pages/Intro';
 import AssessmentPage from './pages/Assessment';
 import ResultsPage from './pages/Results';
 import AdminPage from './pages/Admin';
+import RegisterPage from './pages/Register';
 
 function AssessmentFlow() {
   const { state } = useAssessment();
@@ -29,6 +30,7 @@ function AppLayout() {
           </AssessmentProvider>
         } />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </div>
   );

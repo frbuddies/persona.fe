@@ -28,12 +28,15 @@ export default function ResultsPage() {
     if (state.userName && state.userEmail && keys.length > 0 && !sentRef.current) {
       sentRef.current = true;
       const topPersona = keys.reduce((a, b) => state.scores[a] > state.scores[b] ? a : b);
+      const params = new URLSearchParams(window.location.search);
+      const client_id = params.get('client_id');
       sendResultsToBackend({
         name: state.userName,
         email: state.userEmail,
         personaScores: state.scores,
         roleScores: state.roleScores,
         topPersona,
+        ...(client_id && { client_id }),
       });
     }
   }, []);
