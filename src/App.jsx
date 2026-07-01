@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AssessmentProvider, useAssessment } from './context/AssessmentContext';
 import IntroPage from './pages/Intro';
 import AssessmentPage from './pages/Assessment';
@@ -24,7 +24,10 @@ function AssessmentFlow() {
 }
 
 function Navbar() {
+  const { pathname } = useLocation();
   const isAuth = localStorage.getItem('isAuth') === 'true';
+  const showNav = pathname === '/' || pathname.startsWith('/admin');
+  if (!showNav) return null;
   return (
     <nav style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -38,7 +41,7 @@ function Navbar() {
         <img src={logo} alt="RedRock" style={{ height: '100px', width: 'auto' }} />
         RedRock
       </Link>
-      {!isAuth && (
+      {pathname === '/' && !isAuth && (
         <Link to="/register" style={{
           textDecoration: 'none',
           background: 'linear-gradient(135deg, #1a5276, #1e6a8a)',

@@ -14,7 +14,7 @@ const styles = {
     textTransform: 'uppercase',
     color: '#0f1628',
     fontWeight: '700',
-    marginBottom: '14px',
+    lineHeight: '1.3',
   },
   divider: {
     borderTop: '1.5px solid #eef0f6',

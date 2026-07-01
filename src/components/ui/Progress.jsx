@@ -1,8 +1,9 @@
 import { useAssessment } from '../../context/AssessmentContext';
+import { QUESTIONS } from '../../data/questions';
 
 export function ProgressBar() {
   const { state } = useAssessment();
-  const total = 20;
+  const total = QUESTIONS.length;
   const pct = Math.round((state.qi / total) * 100);
   return (
     <div style={{
@@ -25,9 +26,10 @@ export function ProgressBar() {
 
 export function ProgressDots() {
   const { state } = useAssessment();
+  const total = QUESTIONS.length;
   return (
     <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-      {Array.from({ length: 20 }).map((_, i) => (
+      {Array.from({ length: total }).map((_, i) => (
         <div key={i} style={{
           height: i === state.qi ? '6px' : '4px',
           width: i === state.qi ? '16px' : '4px',

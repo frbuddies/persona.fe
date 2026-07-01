@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, LogOut, Eye, EyeOff, Sparkles, Download, Share2, ExternalLink, Copy, Check, GitCompare } from 'lucide-react';
+import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, LogOut, Eye, EyeOff, Sparkles, Download, Share2, ExternalLink, Copy, Check, GitCompare, MoreVertical, X } from 'lucide-react';
 import { useBreakpoints } from '../hooks/useMediaQuery';
-import { fetchAllResults, loginUser } from '../data/api';
+import { fetchAllResults, loginUser, setUserPassword } from '../data/api';
 import { PERSONAS } from '../data/personas';
 import { ROLES } from '../data/roles';
 import { getPersonaIcon } from '../utils/icons';
@@ -28,6 +28,16 @@ export default function AdminPage() {
   const [copied, setCopied] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const { isDesktop } = useBreakpoints();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showChangePw, setShowChangePw] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPw, setShowNewPw] = useState(false);
+  const [showConfirmPw, setShowConfirmPw] = useState(false);
+  const [pwChangeLoading, setPwChangeLoading] = useState(false);
+  const [pwChangeError, setPwChangeError] = useState('');
+  const [pwChangeSuccess, setPwChangeSuccess] = useState('');
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
@@ -234,7 +244,7 @@ export default function AdminPage() {
             </div>
           )}
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
           <button
             onClick={load}
             disabled={loading}
@@ -252,30 +262,78 @@ export default function AdminPage() {
             <RefreshCw size={16} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
             Refresh
           </button>
-          <button
-            onClick={() => {
-              localStorage.removeItem('isAuth');
-              localStorage.removeItem('client_id');
-              localStorage.removeItem('isSuperAdmin');
-              setAuthed(false);
-              setClientId(null);
-              setIsSuperAdmin(false);
-              setData(null);
-            }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '6px',
-              background: '#fff', border: '1.5px solid #e4e9f2',
-              borderRadius: '10px', padding: '10px 20px',
-              fontSize: '13px', fontWeight: '600', color: '#d32f2f',
-              cursor: 'pointer', fontFamily: 'inherit',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => { e.target.style.borderColor = '#d32f2f'; e.target.style.background = '#fef2f2'; }}
-            onMouseLeave={(e) => { e.target.style.borderColor = '#e4e9f2'; e.target.style.background = '#fff'; }}
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: '40px', height: '40px',
+                background: '#fff', border: '1.5px solid #e4e9f2',
+                borderRadius: '10px',
+                cursor: 'pointer', fontFamily: 'inherit', color: '#4a5070',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => { e.target.style.borderColor = '#1a5276'; e.target.style.color = '#1a5276'; }}
+              onMouseLeave={(e) => { e.target.style.borderColor = '#e4e9f2'; e.target.style.color = '#4a5070'; }}
+            >
+              <MoreVertical size={18} />
+            </button>
+            {menuOpen && (
+              <>
+                <div
+                  onClick={() => setMenuOpen(false)}
+                  style={{ position: 'fixed', inset: 0, zIndex: 99 }}
+                />
+                <div style={{
+                  position: 'absolute', right: 0, top: '44px', zIndex: 100,
+                  background: '#fff', border: '1.5px solid #e4e9f2',
+                  borderRadius: '12px', boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  minWidth: '180px', overflow: 'hidden',
+                }}>
+                  <button
+                    onClick={() => { setMenuOpen(false); setShowChangePw(true); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      width: '100%', padding: '12px 16px',
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontFamily: 'inherit', fontSize: '13px', fontWeight: '600',
+                      color: '#0f1628', transition: 'all 0.15s', textAlign: 'left',
+                    }}
+                    onMouseEnter={(e) => e.target.style.background = '#f5f7fb'}
+                    onMouseLeave={(e) => e.target.style.background = 'none'}
+                  >
+                    <LogOut size={15} style={{ transform: 'rotate(90deg)' }} />
+                    Change Password
+                  </button>
+                  <div style={{ height: '1px', background: '#eef0f6', margin: '0 8px' }} />
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      localStorage.removeItem('isAuth');
+                      localStorage.removeItem('client_id');
+                      localStorage.removeItem('isSuperAdmin');
+                      setAuthed(false);
+                      setClientId(null);
+                      setIsSuperAdmin(false);
+                      setData(null);
+                    }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      width: '100%', padding: '12px 16px',
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontFamily: 'inherit', fontSize: '13px', fontWeight: '600',
+                      color: '#d32f2f', transition: 'all 0.15s', textAlign: 'left',
+                    }}
+                    onMouseEnter={(e) => e.target.style.background = '#fef2f2'}
+                    onMouseLeave={(e) => e.target.style.background = 'none'}
+                  >
+                    <LogOut size={15} />
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -366,6 +424,162 @@ export default function AdminPage() {
         </div>
       )}
 
+      {showChangePw && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(0,0,0,0.3)', padding: '20px',
+        }}>
+          <div style={{
+            background: '#fff', borderRadius: '18px',
+            width: '100%', maxWidth: '400px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.15)',
+            borderLeft: '4px solid #1a5276',
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '20px 24px 0',
+            }}>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: '#0f1628' }}>
+                Change Password
+              </h3>
+              <button
+                onClick={() => { setShowChangePw(false); setNewPassword(''); setConfirmPassword(''); setShowNewPw(false); setShowConfirmPw(false); setPwChangeError(''); setPwChangeSuccess(''); }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#b0b8cc', padding: '4px' }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div style={{ padding: '20px 24px 24px' }}>
+              {pwChangeSuccess ? (
+                <div>
+                  <div style={{
+                    fontSize: '13px', color: '#27ae60', marginBottom: '16px',
+                    padding: '10px 14px', background: '#f0faf4', borderRadius: '8px',
+                    border: '1px solid #b8e6c8',
+                  }}>
+                    {pwChangeSuccess}
+                  </div>
+                  <button
+                    onClick={() => { setShowChangePw(false); setNewPassword(''); setConfirmPassword(''); setShowNewPw(false); setShowConfirmPw(false); setPwChangeSuccess(''); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                      width: '100%', padding: '10px', borderRadius: '10px',
+                      background: '#1a5276', color: '#fff', border: 'none',
+                      fontSize: '13px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit',
+                    }}
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  setPwChangeError('');
+                  setPwChangeSuccess('');
+                  if (!newPassword.trim()) { setPwChangeError('Please enter a new password'); return; }
+                  if (!confirmPassword.trim()) { setPwChangeError('Please confirm your new password'); return; }
+                  if (newPassword !== confirmPassword) { setPwChangeError('Passwords do not match'); return; }
+                  setPwChangeLoading(true);
+                  const res = await setUserPassword(clientId, newPassword);
+                  setPwChangeLoading(false);
+                  if (res.success) {
+                    setPwChangeSuccess(res.message || 'Password updated successfully');
+                  } else {
+                    setPwChangeError(res.message || 'Failed to update password');
+                  }
+                }}>
+                  <div style={{ marginBottom: '16px' }}>
+                    <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+                      New Password
+                    </label>
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        type={showNewPw ? 'text' : 'password'}
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        placeholder="Enter new password"
+                        style={{
+                          width: '100%', padding: '10px 14px', borderRadius: '10px',
+                          border: '1.5px solid #dee6f0', fontSize: '14px',
+                          fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
+                          transition: 'border-color 0.2s',
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#1a5276'}
+                        onBlur={(e) => e.target.style.borderColor = '#dee6f0'}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPw(!showNewPw)}
+                        style={{
+                          position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+                          background: 'none', border: 'none', cursor: 'pointer', color: '#b0b8cc', padding: '4px',
+                        }}
+                      >
+                        {showNewPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: '16px' }}>
+                    <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+                      Confirm Password
+                    </label>
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        type={showConfirmPw ? 'text' : 'password'}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Confirm new password"
+                        style={{
+                          width: '100%', padding: '10px 14px', borderRadius: '10px',
+                          border: '1.5px solid #dee6f0', fontSize: '14px',
+                          fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
+                          transition: 'border-color 0.2s',
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#1a5276'}
+                        onBlur={(e) => e.target.style.borderColor = '#dee6f0'}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPw(!showConfirmPw)}
+                        style={{
+                          position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
+                          background: 'none', border: 'none', cursor: 'pointer', color: '#b0b8cc', padding: '4px',
+                        }}
+                      >
+                        {showConfirmPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </div>
+                  {pwChangeError && (
+                    <div style={{
+                      fontSize: '13px', color: '#d32f2f', marginBottom: '14px',
+                      padding: '10px 14px', background: '#fef2f2', borderRadius: '8px',
+                      border: '1px solid #fecaca',
+                    }}>
+                      {pwChangeError}
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={!newPassword.trim() || !confirmPassword.trim() || pwChangeLoading}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                      width: '100%', padding: '10px', borderRadius: '10px',
+                      background: !newPassword.trim() || !confirmPassword.trim() || pwChangeLoading ? '#b0b8cc' : '#1a5276',
+                      color: '#fff', border: 'none',
+                      fontSize: '13px', fontWeight: '700', cursor: !newPassword.trim() || !confirmPassword.trim() || pwChangeLoading ? 'not-allowed' : 'pointer',
+                      fontFamily: 'inherit', transition: 'all 0.2s',
+                    }}
+                  >
+                    {pwChangeLoading ? 'Updating...' : 'Update Password'}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );

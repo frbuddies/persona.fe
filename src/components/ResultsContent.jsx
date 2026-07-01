@@ -373,66 +373,62 @@ export default function ResultsContent({
         </div>
       </div>
 
-      {/* ── Role Scores + Stretch edges ── */}
-      <Divider />
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
-        gap: isDesktop ? '32px' : '24px',
-        marginBottom: '36px',
-      }}>
-        <div>
-          {lowP.length > 0 && (
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                <Target size={16} color="#9aa0b8" />
-                <Overline>Stretch Edges — Lower Alignment</Overline>
-              </div>
-              <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '14px', lineHeight: '1.65' }}>
-                These personas showed little alignment. They may represent blind spots — or simply approaches outside your current style.
-              </p>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                {lowP.map((prof) => (
-                  <div key={prof.id} style={{
-                    background: '#fff', border: '1.5px solid #e4e9f2',
-                    borderRadius: '10px', padding: '10px 14px',
-                    display: 'flex', alignItems: 'center', gap: '10px',
-                    boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
-                  }}>
-                    <PersonaIconDisplay icon={getPersonaIcon(prof.id)} accent="#c8cce0" size={16} />
-                    <div>
-                      <div style={{ fontSize: '13px', color: '#2a2d44', fontWeight: '500' }}>{prof.name}</div>
-                      <div style={{ fontSize: '11px', color: '#9aa0b8', fontWeight: '500' }}>Stretch opportunity</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* ── Stretch Edges ── */}
+      {lowP.length > 0 && (
+        <>
+          <Divider />
+          <div style={{ marginBottom: '36px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+              <Target size={16} color="#9aa0b8" />
+              <Overline>Stretch Edges — Lower Alignment</Overline>
             </div>
-          )}
+            <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '14px', lineHeight: '1.65' }}>
+              These personas showed little alignment. They may represent blind spots — or simply approaches outside your current style.
+            </p>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {lowP.map((prof) => (
+                <div key={prof.id} style={{
+                  background: '#fff', border: '1.5px solid #e4e9f2',
+                  borderRadius: '10px', padding: '10px 14px',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
+                }}>
+                  <PersonaIconDisplay icon={getPersonaIcon(prof.id)} accent="#c8cce0" size={16} />
+                  <div>
+                    <div style={{ fontSize: '13px', color: '#2a2d44', fontWeight: '500' }}>{prof.name}</div>
+                    <div style={{ fontSize: '11px', color: '#9aa0b8', fontWeight: '500' }}>Stretch opportunity</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── All Role Scores ── */}
+      <Divider />
+      <div style={{ marginBottom: '36px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+          <Target size={16} color="#9aa0b8" />
+          <Overline>All Role Scores</Overline>
         </div>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <Target size={16} color="#9aa0b8" />
-            <Overline>All Role Scores</Overline>
-          </div>
-          <div style={{
-            background: '#fff', border: '1.5px solid #e4e9f2',
-            borderRadius: '12px', padding: '20px 22px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-          }}>
-            {sortedR.map((role, i) => (
-              <ScoreBar
-                key={role.id}
-                Icon={getRoleIcon(role.id)}
-                name={role.name}
-                score={role.score}
-                pct={pct(role, maxR)}
-                accent={role.accent || '#b0bdd4'}
-                isPrimary={i === 0}
-                primaryLabel="MATCH"
-              />
-            ))}
-          </div>
+        <div style={{
+          background: '#fff', border: '1.5px solid #e4e9f2',
+          borderRadius: '12px', padding: '20px 22px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        }}>
+          {sortedR.map((role, i) => (
+            <ScoreBar
+              key={role.id}
+              Icon={getRoleIcon(role.id)}
+              name={role.name}
+              score={role.score}
+              pct={pct(role, maxR)}
+              accent={role.accent || '#b0bdd4'}
+              isPrimary={i === 0}
+              primaryLabel="MATCH"
+            />
+          ))}
         </div>
       </div>
 

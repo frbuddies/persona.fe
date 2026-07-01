@@ -39,3 +39,17 @@ export async function loginUser(email, password) {
     return { success: false, message: error.message };
   }
 }
+
+export async function setUserPassword(client_id, password) {
+  try {
+    const response = await fetch(`${API_BASE}/users/set_password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id, password }),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Error setting password:', error);
+    return { success: false, message: error.message };
+  }
+}
