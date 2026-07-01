@@ -4,7 +4,7 @@ import { UserPlus, Eye, EyeOff, Sparkles, Copy, Check, ExternalLink, LayoutDashb
 import { FieldInput } from '../components/ui/Common';
 import { Button } from '../components/ui/Button';
 
-const API_URL = `${import.meta.env.VITE_API_URL}` || 'https://persona-be-y9g7.onrender.com';
+const API_URL = import.meta.env.VITE_API_URL || 'https://persona-be-y9g7.onrender.com';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
