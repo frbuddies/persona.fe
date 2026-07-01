@@ -9,11 +9,11 @@ const styles = {
     transition: 'box-shadow 0.2s, transform 0.2s',
   },
   overline: {
-    fontSize: '10px',
-    letterSpacing: '0.22em',
+    fontSize: '11px',
+    letterSpacing: '0.18em',
     textTransform: 'uppercase',
-    color: '#9aa0b8',
-    fontWeight: '600',
+    color: '#0f1628',
+    fontWeight: '700',
     marginBottom: '14px',
   },
   divider: {
@@ -35,8 +35,9 @@ const styles = {
   scoreRow: {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
-    marginBottom: '12px',
+    gap: '10px',
+    marginBottom: '10px',
+    minHeight: '28px',
   },
 };
 
@@ -85,18 +86,19 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
   const barColor = isPrimary ? accent : isLow ? '#dde2ef' : '#b0bdd4';
   return (
     <div style={styles.scoreRow}>
-      <div style={{ width: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        {Icon ? <Icon size={16} color={isPrimary ? accent : '#b0b8cc'} /> : null}
+      <div style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        {Icon ? <Icon size={15} color={isPrimary ? accent : '#6a7090'} /> : null}
       </div>
       <div style={{
-        minWidth: '140px',
+        minWidth: '130px',
         fontSize: '12px',
         color: labelColor,
-        fontWeight: isPrimary ? '700' : '400',
+        fontWeight: isPrimary ? '700' : '500',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
-        gap: '6px',
+        gap: '5px',
+        lineHeight: '1.3',
       }}>
         {name}
         {isPrimary && (
@@ -123,12 +125,13 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
         }} />
       </div>
       <div style={{
-        width: '32px',
+        width: '30px',
         textAlign: 'right',
         fontSize: '11px',
-        color: '#b0b8cc',
+        color: '#6a7090',
         flexShrink: 0,
-        fontWeight: isPrimary ? '600' : '400',
+        fontWeight: isPrimary ? '700' : '500',
+        lineHeight: '1.3',
       }}>
         {pctVal}%
       </div>

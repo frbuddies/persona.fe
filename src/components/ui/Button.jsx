@@ -131,7 +131,7 @@ export function TipTab({ active, onClick, children }) {
         cursor: 'pointer',
         border: `1.5px solid ${active ? '#1a5276' : '#e4e9f2'}`,
         background: active ? '#1a5276' : '#fff',
-        color: active ? '#fff' : '#6a7090',
+        color: active ? '#fff' : '#2a2d44',
         marginRight: '8px',
         marginBottom: '8px',
         fontFamily: 'inherit',
@@ -147,7 +147,7 @@ export function TipTab({ active, onClick, children }) {
       onMouseLeave={(e) => {
         if (!active) {
           e.target.style.borderColor = '#e4e9f2';
-          e.target.style.color = '#6a7090';
+          e.target.style.color = '#2a2d44';
         }
       }}
     >

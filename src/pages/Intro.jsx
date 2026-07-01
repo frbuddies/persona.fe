@@ -9,7 +9,7 @@ import { useBreakpoints } from '../hooks/useMediaQuery';
 
 export default function IntroPage() {
   const { state, dispatch } = useAssessment();
-  const canStart = state.userName.trim() && state.userEmail.trim();
+  const canStart = state.userName.trim() && state.userEmail.trim() && state.userRole.trim();
   const { isDesktop } = useBreakpoints();
 
   return (
@@ -42,7 +42,7 @@ export default function IntroPage() {
             alignSelf: 'flex-start',
           }}>
             <Sparkles size={14} />
-            DWEnterprise Sales Assessment
+            RedRock Sales Assessment
           </div>
           <h1 style={{
             fontSize: 'clamp(32px, 5vw, 56px)',
@@ -134,11 +134,11 @@ function FormContent({ state, dispatch, canStart }) {
   return (
     <>
       <div style={{
-        fontSize: '10px',
-        letterSpacing: '0.22em',
+        fontSize: '11px',
+        letterSpacing: '0.18em',
         textTransform: 'uppercase',
-        color: '#9aa0b8',
-        fontWeight: '600',
+        color: '#0f1628',
+        fontWeight: '700',
         marginBottom: '22px',
       }}>
         Tell Us About You
@@ -148,7 +148,7 @@ function FormContent({ state, dispatch, canStart }) {
           fontSize: '13px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
-          Your Name
+          Name
         </label>
         <FieldInput
           value={state.userName}
@@ -156,18 +156,31 @@ function FormContent({ state, dispatch, canStart }) {
           placeholder="e.g. Jane Smith"
         />
       </div>
-      <div style={{ marginBottom: '4px' }}>
+      <div style={{ marginBottom: '20px' }}>
         <label style={{
           fontSize: '13px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
-          Your Email
+          Email
         </label>
         <FieldInput
           value={state.userEmail}
           onChange={(v) => dispatch({ type: 'SET_EMAIL', payload: v })}
           placeholder="e.g. jane@company.com"
           type="email"
+        />
+      </div>
+      <div style={{ marginBottom: '4px' }}>
+        <label style={{
+          fontSize: '13px', fontWeight: '600', color: '#2a2d44',
+          marginBottom: '6px', display: 'block',
+        }}>
+          Role
+        </label>
+        <FieldInput
+          value={state.userRole}
+          onChange={(v) => dispatch({ type: 'SET_ROLE', payload: v })}
+          placeholder="e.g. Sales Executive"
         />
       </div>
       <p style={{ fontSize: '12px', color: '#b0b8cc', marginTop: '12px' }}>

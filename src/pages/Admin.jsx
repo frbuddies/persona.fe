@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, LogOut, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { BarChart3, Users, RefreshCw, Calendar, Mail, LogIn, LogOut, Eye, EyeOff, Sparkles, Download, Share2, ExternalLink, Copy, Check, GitCompare } from 'lucide-react';
 import { useBreakpoints } from '../hooks/useMediaQuery';
 import { fetchAllResults, loginUser } from '../data/api';
 import { PERSONAS } from '../data/personas';
 import { ROLES } from '../data/roles';
 import { getPersonaIcon } from '../utils/icons';
+import { getSortedPersonas, getSortedRoles } from '../utils/scoring';
+import { buildEmailHTML } from '../utils/email';
 import { FieldInput } from '../components/ui/Common';
 import { Button } from '../components/ui/Button';
+import html2pdf from 'html2pdf.js';
 
 export default function AdminPage() {
+  const navigate = useNavigate();
   const [authed, setAuthed] = useState(localStorage.getItem('isAuth') === 'true');
   const [clientId, setClientId] = useState(localStorage.getItem('client_id') || null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(localStorage.getItem('isSuperAdmin') === 'true');
@@ -20,7 +25,17 @@ export default function AdminPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
   const { isDesktop } = useBreakpoints();
+
+  const toggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
+  const assessmentLink = clientId ? `${window.location.origin}/?client_id=${clientId}` : '';
 
   const load = () => {
     setLoading(true);
@@ -84,7 +99,7 @@ export default function AdminPage() {
               marginBottom: '16px',
             }}>
               <Sparkles size={14} />
-              DWEnterprise
+              RedRock
             </div>
             <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
               Admin Login
@@ -179,6 +194,45 @@ export default function AdminPage() {
           <p style={{ fontSize: '14px', color: '#9aa0b8' }}>
             {data ? `${data.length} result${data.length !== 1 ? 's' : ''}` : 'Loading...'}
           </p>
+          {!isSuperAdmin && clientId && (
+            <div style={{ marginTop: '12px' }}>
+              <div style={{ fontSize: '11px', fontWeight: '700', color: '#0f1628', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                Assessment Link
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{
+                  flex: 1, padding: '8px 12px', background: '#f8f9fc', borderRadius: '8px',
+                  border: '1.5px solid #e0e3ef', fontSize: '12px', color: '#1a5276',
+                  wordBreak: 'break-all', fontFamily: 'monospace', lineHeight: '1.5',
+                }}>
+                  {assessmentLink}
+                </div>
+                <button
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(assessmentLink);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 2000);
+                    } catch {}
+                  }}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: '36px', height: '36px', borderRadius: '8px', flexShrink: 0,
+                    background: copied ? '#27ae60' : 'linear-gradient(135deg, #1a5276, #1e6a8a)',
+                    color: '#fff', border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                  }}
+                  title="Copy link"
+                >
+                  {copied ? <Check size={16} /> : <Copy size={16} />}
+                </button>
+              </div>
+              {copied && (
+                <p style={{ fontSize: '11px', color: '#27ae60', marginTop: '4px', fontWeight: '600' }}>
+                  Link copied to clipboard!
+                </p>
+              )}
+            </div>
+          )}
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button
@@ -266,7 +320,7 @@ export default function AdminPage() {
           borderRadius: '14px', color: '#9aa0b8',
         }}>
           <Users size={40} style={{ marginBottom: '12px', opacity: 0.4 }} />
-          <div style={{ fontWeight: '700', fontSize: '16px', color: '#6a7090', marginBottom: '6px' }}>
+          <div style={{ fontWeight: '700', fontSize: '16px', color: '#0f1628', marginBottom: '6px' }}>
             No results yet
           </div>
           <div style={{ fontSize: '13px' }}>
@@ -278,8 +332,37 @@ export default function AdminPage() {
       {data && data.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {data.map((item) => (
-            <ResultCard key={item._id} item={item} isDesktop={isDesktop} />
+            <ResultCard key={item._id} item={item} isDesktop={isDesktop} selected={selectedIds.includes(item._id)} onToggle={() => toggleSelect(item._id)} />
           ))}
+        </div>
+      )}
+
+      {selectedIds.length >= 2 && (
+        <div style={{
+          position: 'fixed', bottom: '32px', left: '50%', transform: 'translateX(-50%)',
+          zIndex: 1000,
+        }}>
+          <button
+            onClick={() => {
+              const selectedItems = data.filter((d) => selectedIds.includes(d._id));
+              setSelectedIds([]);
+              navigate('/admin/compare', { state: selectedItems });
+            }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              padding: '14px 28px', borderRadius: '14px',
+              background: 'linear-gradient(135deg, #1a5276, #1e6a8a)',
+              color: '#fff', border: 'none', fontSize: '14px', fontWeight: '700',
+              cursor: 'pointer', fontFamily: 'inherit', letterSpacing: '0.02em',
+              boxShadow: '0 8px 32px rgba(26,82,118,0.35)',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={(e) => e.target.style.opacity = '0.9'}
+            onMouseLeave={(e) => e.target.style.opacity = '1'}
+          >
+            <GitCompare size={18} />
+            Compare Selected ({selectedIds.length})
+          </button>
         </div>
       )}
 
@@ -288,7 +371,8 @@ export default function AdminPage() {
   );
 }
 
-function ResultCard({ item, isDesktop }) {
+function ResultCard({ item, isDesktop, selected, onToggle }) {
+  const navigate = useNavigate();
   const added = item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US', {
     year: 'numeric', month: 'short', day: 'numeric',
     hour: '2-digit', minute: '2-digit',
@@ -303,8 +387,68 @@ function ResultCard({ item, isDesktop }) {
   const scores = item.personaScores || {};
   const roleScores = item.roleScores || {};
 
+  const generatePDF = (mode) => {
+    const sortedP = getSortedPersonas(scores);
+    const maxP = sortedP[0]?.score || 1;
+    const pri = sortedP[0];
+    const sortedR = getSortedRoles(roleScores);
+    const maxR = sortedR[0]?.score || 1;
+    const priRole = sortedR[0];
+    if (!pri || !priRole) return;
+    const html = buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S: { userName: item.name, userEmail: item.email } });
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    iframe.style.top = '0';
+    iframe.style.width = '800px';
+    iframe.style.height = '0';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+    const idoc = iframe.contentDocument || iframe.contentWindow.document;
+    idoc.open();
+    idoc.write(html);
+    idoc.close();
+    const filename = `RedRock-Results-${item.name.replace(/\s+/g, '-')}.pdf`;
+    iframe.onload = () => {
+      html2pdf()
+        .set({
+          margin: [0.4, 0.4, 0.4, 0.4],
+          filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        })
+        .from(iframe.contentDocument.body)
+        .toPdf()
+        .get('pdf')
+        .then((pdf) => {
+          if (mode === 'download') {
+            pdf.save(filename);
+          } else if (mode === 'share') {
+            const blob = pdf.output('blob');
+            const file = new File([blob], filename, { type: 'application/pdf' });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              navigator.share({
+                files: [file],
+                title: 'RedRock Assessment Results',
+                text: `Assessment results for ${item.name}`,
+              });
+            } else {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = filename;
+              a.click();
+              URL.revokeObjectURL(url);
+            }
+          }
+          document.body.removeChild(iframe);
+        });
+    };
+  };
+
   return (
-    <div style={{
+    <div className="result-card" style={{
       background: '#fff',
       border: '1.5px solid #dee6f0',
       borderRadius: '16px',
@@ -317,6 +461,14 @@ function ResultCard({ item, isDesktop }) {
         gap: '16px', marginBottom: '18px', flexWrap: 'wrap',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', flexShrink: 0 }}>
+            <input
+              type="checkbox"
+              checked={selected}
+              onChange={onToggle}
+              style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#1a5276' }}
+            />
+          </label>
           {TopIcon && (
             <div style={{
               width: '40px', height: '40px', borderRadius: '12px',
@@ -347,12 +499,61 @@ function ResultCard({ item, isDesktop }) {
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Mail size={12} /> {item.email}
               </span>
+              {item.role && (
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Users size={12} /> {item.role}
+                </span>
+              )}
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Calendar size={12} /> {added}
               </span>
             </div>
           </div>
         </div>
+      </div>
+
+      <div style={{
+        display: 'flex', gap: '8px', marginBottom: '18px', flexWrap: 'wrap',
+      }}>
+        <button
+          onClick={() => generatePDF('download')}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '5px',
+            padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #1a5276',
+            background: '#fff', color: '#1a5276', fontSize: '12px',
+            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+          onMouseEnter={(e) => { e.target.style.background = '#eaf1f8'; }}
+          onMouseLeave={(e) => { e.target.style.background = '#fff'; }}
+        >
+          <Download size={14} /> PDF
+        </button>
+        <button
+          onClick={() => generatePDF('share')}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '5px',
+            padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #1a5276',
+            background: '#fff', color: '#1a5276', fontSize: '12px',
+            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+          onMouseEnter={(e) => { e.target.style.background = '#eaf1f8'; }}
+          onMouseLeave={(e) => { e.target.style.background = '#fff'; }}
+        >
+          <Share2 size={14} /> Share
+        </button>
+        <button
+          onClick={() => navigate('/admin/result', { state: item })}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '5px',
+            padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #b0b8cc',
+            background: '#fff', color: '#4a5070', fontSize: '12px',
+            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+          onMouseEnter={(e) => { e.target.style.background = '#f5f7fb'; }}
+          onMouseLeave={(e) => { e.target.style.background = '#fff'; }}
+        >
+          <ExternalLink size={14} /> View
+        </button>
       </div>
 
       <div style={{
@@ -374,8 +575,8 @@ function ScoreTable({ scores, label, accent }) {
   return (
     <div>
       <div style={{
-        fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
-        color: '#b0b8cc', fontWeight: '600', marginBottom: '10px',
+        fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase',
+        color: '#0f1628', fontWeight: '700', marginBottom: '10px',
       }}>
         {label}
       </div>

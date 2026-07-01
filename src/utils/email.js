@@ -1,49 +1,9 @@
 import { pct } from './scoring';
 
-function buildPlainText({ S, pri, sortedP, maxP, priRole, sortedR, maxR }) {
-  const date = new Date().toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  });
-  const lines = [
-    'DWEnterprise Sales Assessment Results',
-    '=====================================',
-    `Name: ${S.userName}`,
-    `Date: ${date}`,
-    '',
-    `PRIMARY PERSONA: ${pri.emoji} ${pri.name} \u2014 ${pri.tagline}`,
-    '',
-    pri.desc,
-    '',
-    'CORE STRENGTHS',
-    ...pri.strengths.map((s) => `  \u2022 ${s}`),
-    '',
-    'GROWTH OPPORTUNITIES',
-    ...pri.growth.map((g) => `  \u2022 ${g}`),
-    '',
-    'DEVELOPMENT TIPS',
-    ...pri.tips.flatMap((t, i) => [`  ${i + 1}. ${t.label}: ${t.text}`, '']),
-    'PERSONA SCORES',
-    ...sortedP.map((pp) => `  ${pp.emoji} ${pp.name}: ${pct(pp, maxP)}%`),
-    '',
-    `MOST LIKELY ROLE MATCH: ${priRole.emoji} ${priRole.name} \u2014 ${priRole.tagline}`,
-    '',
-    priRole.desc,
-    '',
-    'ROLE SCORES',
-    ...sortedR.map((rr) => `  ${rr.emoji} ${rr.name}: ${pct(rr, maxR)}%`),
-    '',
-    'DWEnterprise Sales Assessment',
-  ];
-  return lines.join('\n');
-}
-
 export function buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S }) {
   const date = new Date().toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
-  const plainText = buildPlainText({ S, pri, sortedP, maxP, priRole, sortedR, maxR });
-  const mailtoHref = `mailto:${encodeURIComponent(S.userEmail)}?subject=${encodeURIComponent(`Your DWEnterprise Sales Assessment Results \u2014 ${pri.name}`)}&body=${encodeURIComponent(plainText)}`;
-
   const pBarRows = sortedP.map((prof) => {
     const isPri = prof.id === pri.id;
     const p2 = pct(prof, maxP);
@@ -128,18 +88,14 @@ export function buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S }
     </div>`;
   }).join('');
 
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>DWEnterprise Sales Assessment \u2014 ${S.userName}</title><style>
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>RedRock Sales Assessment \u2014 ${S.userName}</title><style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:system-ui,-apple-system,sans-serif;background:#f4f6fa;color:#1a1a2e;}
-    @media print{body{background:#fff;}.no-print{display:none!important;}.page-wrap{box-shadow:none!important;max-width:100%!important;}}
+    @media print{body{background:#fff;}.page-wrap{box-shadow:none!important;max-width:100%!important;}}
   </style></head><body>
   <div class="page-wrap" style="max-width:680px;margin:0 auto;background:#fff;padding:40px 36px 60px;box-shadow:0 2px 24px rgba(0,0,0,0.07);">
-    <div class="no-print" style="display:flex;justify-content:flex-end;gap:10px;margin-bottom:20px;">
-      <a href="${mailtoHref}" style="display:inline-block;background:#fff;color:#1a5276;border:1.5px solid #1a5276;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;">\u{1F4E7} Email to Myself</a>
-      <button onclick="window.print()" style="background:#1a5276;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">\u{1F5A8}\uFE0F Print / Save as PDF</button>
-    </div>
     <div style="text-align:center;margin-bottom:36px;padding-bottom:28px;border-bottom:2px solid #eef0f6;">
-      <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#9aa0b8;font-weight:600;margin-bottom:12px;">DWEnterprise Sales Assessment</div>
+      <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#9aa0b8;font-weight:600;margin-bottom:12px;">RedRock Sales Assessment</div>
       <div style="font-size:11px;color:#b0b8cc;margin-bottom:4px;">Results for <strong style="color:#4a5070;">${S.userName}</strong></div>
       <div style="font-size:11px;color:#b0b8cc;">${date}</div>
     </div>
@@ -199,7 +155,7 @@ export function buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S }
     <div style="font-size:12px;color:#9aa0b8;line-height:1.6;margin-bottom:18px;">A summary of the four sales role types so you understand the full landscape of how seller responsibilities are defined.</div>
     ${roleCards}
     <div style="border-top:1.5px solid #eef0f6;padding-top:22px;margin-top:20px;text-align:center;">
-      <div style="font-size:10px;color:#c0c6d8;">DWEnterprise Sales Assessment \u00B7 6 Personas \u00B7 4 Sales Roles</div>
+      <div style="font-size:10px;color:#c0c6d8;">RedRock Sales Assessment \u00B7 6 Personas \u00B7 4 Sales Roles</div>
     </div>
   </div></body></html>`;
 }

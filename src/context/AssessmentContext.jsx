@@ -7,6 +7,7 @@ const initialState = {
   screen: 'intro',
   userName: '',
   userEmail: '',
+  userRole: '',
   qi: 0,
   answers: {},
   selected: null,
@@ -23,6 +24,8 @@ function reducer(state, action) {
       return { ...state, userName: action.payload };
     case 'SET_EMAIL':
       return { ...state, userEmail: action.payload };
+    case 'SET_ROLE':
+      return { ...state, userRole: action.payload };
     case 'SELECT_OPTION':
       return { ...state, selected: action.payload };
     case 'NEXT_QUESTION': {
@@ -30,7 +33,7 @@ function reducer(state, action) {
         return { ...state, screen: 'assessment', qi: 0, selected: null };
       }
       const answers = { ...state.answers, [state.qi]: state.selected };
-      if (state.qi + 1 >= 20) {
+      if (state.qi + 1 >= 15) {
         const scores = calcPersonaScores(answers);
         const roleScores = calcRoleScores(scores);
         return {

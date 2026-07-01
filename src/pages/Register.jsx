@@ -84,7 +84,7 @@ export default function RegisterPage() {
           </div>
 
           <div style={{ marginBottom: '18px' }}>
-            <label style={{ fontSize: '12px', fontWeight: '600', color: '#9aa0b8', marginBottom: '6px', display: 'block', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '12px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Client ID
             </label>
             <div style={{
@@ -97,7 +97,7 @@ export default function RegisterPage() {
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <label style={{ fontSize: '12px', fontWeight: '600', color: '#9aa0b8', marginBottom: '6px', display: 'block', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '12px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Assessment Link
             </label>
             <div style={{
@@ -132,7 +132,11 @@ export default function RegisterPage() {
           </div>
 
           <Button
-            onClick={() => navigate(`/admin?client_id=${result.client_id}`)}
+            onClick={() => {
+              localStorage.setItem('isAuth', 'true');
+              localStorage.setItem('client_id', result.client_id);
+              navigate(`/admin?client_id=${result.client_id}`);
+            }}
             style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             <LayoutDashboard size={18} /> Go to Admin Dashboard
@@ -166,7 +170,7 @@ export default function RegisterPage() {
             marginBottom: '16px',
           }}>
             <Sparkles size={14} />
-            DWEnterprise
+            RedRock
           </div>
           <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
             Sign Up

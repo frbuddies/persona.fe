@@ -109,31 +109,6 @@ const QUESTIONS_RAW = [
     ],
   },
   {
-    q: "Which best describes your relationship with structured sales processes and playbooks?",
-    o: [
-      {
-        t: "I use the parts that help with service delivery and follow-through.",
-        s: { ce: 1, ca: 0, is: 0, re: 3, cs: 0, st: 0 },
-      },
-      {
-        t: "I see them as useful guides, but ultimately manage to the health of the account.",
-        s: { ce: 0, ca: 1, is: 0, re: 0, cs: 0, st: 3 },
-      },
-      {
-        t: "I follow them consistently \u2014 structure helps me stay disciplined and on track.",
-        s: { ce: 3, ca: 0, is: 0, re: 1, cs: 0, st: 0 },
-      },
-      {
-        t: "I rarely use them \u2014 I prefer to work from instinct and experience.",
-        s: { ce: 0, ca: 0, is: 3, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "I use them selectively and adapt based on the specific client context.",
-        s: { ce: 0, ca: 0, is: 1, re: 0, cs: 3, st: 1 },
-      },
-    ],
-  },
-  {
     q: "When a client pushes back on your recommendation, you typically:",
     o: [
       {
@@ -205,31 +180,6 @@ const QUESTIONS_RAW = [
       {
         t: "Tailoring a distinct message to each stakeholder based on what they care about.",
         s: { ce: 0, ca: 0, is: 0, re: 0, cs: 3, st: 1 },
-      },
-    ],
-  },
-  {
-    q: "A successful client meeting, in your view, is one where:",
-    o: [
-      {
-        t: "I identified an issue and gave them a clear path to solving it.",
-        s: { ce: 0, ca: 0, is: 0, re: 3, cs: 0, st: 0 },
-      },
-      {
-        t: "I moved the account forward in some meaningful way \u2014 even if the progress was quiet.",
-        s: { ce: 0, ca: 0, is: 0, re: 1, cs: 0, st: 3 },
-      },
-      {
-        t: "The client left feeling genuinely heard, valued, and positive.",
-        s: { ce: 0, ca: 3, is: 0, re: 0, cs: 0, st: 1 },
-      },
-      {
-        t: "I changed the way they were thinking about a challenge in their business.",
-        s: { ce: 0, ca: 0, is: 0, re: 0, cs: 3, st: 0 },
-      },
-      {
-        t: "I covered all my talking points and secured a clear next step.",
-        s: { ce: 3, ca: 0, is: 0, re: 1, cs: 0, st: 0 },
       },
     ],
   },
@@ -309,31 +259,6 @@ const QUESTIONS_RAW = [
     ],
   },
   {
-    q: "Which statement most accurately describes your personal sales philosophy?",
-    o: [
-      {
-        t: "Build something that lasts \u2014 revenue is a byproduct of sustained value delivered over time.",
-        s: { ce: 0, ca: 1, is: 0, re: 0, cs: 0, st: 3 },
-      },
-      {
-        t: "People do business with people they trust \u2014 relationships are the foundation.",
-        s: { ce: 0, ca: 3, is: 0, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "Trust your instincts \u2014 you read people and situations better than any process.",
-        s: { ce: 0, ca: 0, is: 3, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "Consistent effort creates opportunity \u2014 you have to show up every day.",
-        s: { ce: 3, ca: 0, is: 0, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "Bring value before you ask for it \u2014 teach the client something before you pitch.",
-        s: { ce: 0, ca: 0, is: 0, re: 0, cs: 3, st: 0 },
-      },
-    ],
-  },
-  {
     q: "How do you stay current on industry trends and market developments?",
     o: [
       {
@@ -380,31 +305,6 @@ const QUESTIONS_RAW = [
       {
         t: "Treat it as a critical moment \u2014 map the stakeholder landscape and plan a deliberate transition.",
         s: { ce: 0, ca: 1, is: 0, re: 1, cs: 0, st: 3 },
-      },
-    ],
-  },
-  {
-    q: "Which scenario energizes you most as a seller?",
-    o: [
-      {
-        t: "A deep conversation with a long-term client that reinforces the relationship.",
-        s: { ce: 0, ca: 3, is: 0, re: 0, cs: 0, st: 1 },
-      },
-      {
-        t: "Untangling a complicated client issue that no one else could solve.",
-        s: { ce: 0, ca: 0, is: 0, re: 3, cs: 0, st: 0 },
-      },
-      {
-        t: "Closing a deal others said was impossible \u2014 on my own terms.",
-        s: { ce: 0, ca: 0, is: 3, re: 0, cs: 1, st: 0 },
-      },
-      {
-        t: "Watching an account I have cultivated for years continue to grow in new directions.",
-        s: { ce: 0, ca: 1, is: 0, re: 0, cs: 0, st: 3 },
-      },
-      {
-        t: "A full calendar and a packed outreach list \u2014 I feel best when I am in motion.",
-        s: { ce: 3, ca: 0, is: 1, re: 0, cs: 0, st: 0 },
       },
     ],
   },
@@ -480,31 +380,6 @@ const QUESTIONS_RAW = [
       {
         t: "The advisor clients call when they need to make a decision that truly matters.",
         s: { ce: 0, ca: 1, is: 0, re: 0, cs: 3, st: 0 },
-      },
-    ],
-  },
-  {
-    q: "The sales team you would most want to be part of would be defined by:",
-    o: [
-      {
-        t: "High activity expectations and a culture of discipline and hard work.",
-        s: { ce: 3, ca: 0, is: 0, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "Autonomy \u2014 where top performers are trusted to succeed on their own terms.",
-        s: { ce: 0, ca: 0, is: 3, re: 0, cs: 0, st: 0 },
-      },
-      {
-        t: "Investment in insight, market knowledge, and strategic thinking as core selling tools.",
-        s: { ce: 0, ca: 0, is: 0, re: 0, cs: 3, st: 0 },
-      },
-      {
-        t: "A culture that values long-term thinking and measures success across full client lifecycles.",
-        s: { ce: 0, ca: 1, is: 0, re: 0, cs: 0, st: 3 },
-      },
-      {
-        t: "A deeply collaborative culture where people invest genuinely in each other and in clients.",
-        s: { ce: 0, ca: 3, is: 0, re: 1, cs: 0, st: 1 },
       },
     ],
   },
