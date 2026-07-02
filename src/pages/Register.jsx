@@ -44,13 +44,15 @@ export default function RegisterPage() {
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(result.link);
+      await navigator.clipboard.writeText(assessmentLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       setError('Failed to copy link');
     }
   };
+
+  const assessmentLink = result ? `${window.location.origin}/?client_id=${result.client_id}` : '';
 
   if (result) {
     return (
@@ -109,7 +111,7 @@ export default function RegisterPage() {
                 border: '1.5px solid #e0e3ef', fontSize: '13px', color: '#1a5276',
                 wordBreak: 'break-all', lineHeight: '1.5',
               }}>
-                {result.link}
+                {assessmentLink}
               </div>
               <button
                 onClick={copyLink}
