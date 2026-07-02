@@ -1,9 +1,11 @@
-const BACKEND_URL = import.meta.env.VITE_API_URL || 'https://persona-be-y9g7.onrender.com/persona';
-const API_BASE = import.meta.env.VITE_API_URL?.replace('/persona', '') || 'https://persona-be-y9g7.onrender.com';
+
+const BASE_URL = import.meta.env.VITE_BE_URL?.replace(/\/+$/, '') || '';
+const PERSONA_API_URL = BASE_URL + '/persona';
+const USER_API_URL = BASE_URL + '/users';
 
 export async function sendResultsToBackend(data) {
   try {
-    const response = await fetch(`${BACKEND_URL}/persona`, {
+    const response = await fetch(PERSONA_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -16,7 +18,7 @@ export async function sendResultsToBackend(data) {
 
 export async function fetchAllResults(query = '') {
   try {
-    const url = query ? `${BACKEND_URL}/persona?${query}` : BACKEND_URL;
+    const url = query ? `${PERSONA_API_URL}?${query}` : PERSONA_API_URL;
     const response = await fetch(url);
     const json = await response.json();
     return json;
@@ -28,7 +30,7 @@ export async function fetchAllResults(query = '') {
 
 export async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_BASE}/users/login`, {
+    const response = await fetch(`${USER_API_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -42,7 +44,7 @@ export async function loginUser(email, password) {
 
 export async function setUserPassword(client_id, password) {
   try {
-    const response = await fetch(`${API_BASE}/users/set_password`, {
+    const response = await fetch(`${USER_API_URL}/set_password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ client_id, password }),

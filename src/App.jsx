@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AssessmentProvider, useAssessment } from './context/AssessmentContext';
 import IntroPage from './pages/Intro';
@@ -25,8 +26,16 @@ function AssessmentFlow() {
 
 function Navbar() {
   const { pathname } = useLocation();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const handler = () => setTick((t) => t + 1);
+    window.addEventListener('auth-change', handler);
+    return () => window.removeEventListener('auth-change', handler);
+  }, []);
   const isAuth = localStorage.getItem('isAuth') === 'true';
   const showNav = pathname === '/' || pathname.startsWith('/admin');
+  let screen;
+  try { screen = useAssessment().state.screen; } catch { screen = 'intro'; }
   if (!showNav) return null;
   return (
     <nav style={{
@@ -41,7 +50,7 @@ function Navbar() {
         <img src={logo} alt="RedRock" style={{ height: '100px', width: 'auto' }} />
         RedRock
       </Link>
-      {pathname === '/' && !isAuth && (
+      {(pathname === '/' && screen === 'intro' || pathname.startsWith('/admin') && !isAuth) && (
         <Link to="/register" style={{
           textDecoration: 'none',
           background: 'linear-gradient(135deg, #1a5276, #1e6a8a)',
@@ -62,20 +71,16 @@ function Navbar() {
 
 function AppLayout() {
   return (
-    <div>
+    <AssessmentProvider>
       <Navbar />
       <Routes>
-        <Route path="/" element={
-          <AssessmentProvider>
-            <AssessmentFlow />
-          </AssessmentProvider>
-        } />
+        <Route path="/" element={<AssessmentFlow />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/admin/result" element={<AdminResultView />} />
         <Route path="/admin/compare" element={<AdminCompare />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
-    </div>
+    </AssessmentProvider>
   );
 }
 

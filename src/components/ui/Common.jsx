@@ -61,7 +61,7 @@ export function Divider() {
   return <div style={styles.divider} />;
 }
 
-export function FieldInput({ value, onChange, placeholder, type = 'text' }) {
+export function FieldInput({ value, onChange, placeholder, type = 'text', ...props }) {
   return (
     <input
       type={type}
@@ -69,6 +69,7 @@ export function FieldInput({ value, onChange, placeholder, type = 'text' }) {
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       style={styles.fieldInput}
+      {...props}
       onFocus={(e) => {
         e.target.style.borderColor = '#1a5276';
         e.target.style.boxShadow = '0 0 0 3px rgba(26,82,118,0.08)';

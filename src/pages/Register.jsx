@@ -4,7 +4,8 @@ import { UserPlus, Eye, EyeOff, Sparkles, Copy, Check, ExternalLink, LayoutDashb
 import { FieldInput } from '../components/ui/Common';
 import { Button } from '../components/ui/Button';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://persona-be-y9g7.onrender.com';
+const BASE_URL = import.meta.env.VITE_BE_URL?.replace(/\/+$/, '') || '';
+const USER_API_URL = BASE_URL + '/users';
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/users`, {
+      const res = await fetch(USER_API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

@@ -87,6 +87,7 @@ export default function AdminPage() {
             }
             setAuthed(true);
             localStorage.setItem('isAuth', 'true');
+            window.dispatchEvent(new Event('auth-change'));
           } else {
             setLoginError(res.message || 'Invalid email or password');
           }
@@ -128,6 +129,7 @@ export default function AdminPage() {
               onChange={setLoginEmail}
               placeholder="admin@persona.com"
               type="email"
+              autoComplete="new-password"
             />
           </div>
 
@@ -141,6 +143,7 @@ export default function AdminPage() {
                 onChange={setLoginPassword}
                 placeholder="Enter your password"
                 type={showPw ? 'text' : 'password'}
+                autoComplete="new-password"
               />
               <button
                 type="button"
@@ -312,10 +315,13 @@ export default function AdminPage() {
                       localStorage.removeItem('isAuth');
                       localStorage.removeItem('client_id');
                       localStorage.removeItem('isSuperAdmin');
+                      setLoginEmail('');
+                      setLoginPassword('');
                       setAuthed(false);
                       setClientId(null);
                       setIsSuperAdmin(false);
                       setData(null);
+                      window.dispatchEvent(new Event('auth-change'));
                     }}
                     style={{
                       display: 'flex', alignItems: 'center', gap: '10px',
@@ -473,7 +479,7 @@ export default function AdminPage() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={async (e) => {
+        <form autoComplete="off" onSubmit={async (e) => {
                   e.preventDefault();
                   setPwChangeError('');
                   setPwChangeSuccess('');

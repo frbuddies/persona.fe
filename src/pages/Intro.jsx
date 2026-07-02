@@ -69,7 +69,7 @@ export default function IntroPage() {
           }}>
             {[
               { icon: Clock, label: '~7 min' },
-              { icon: ListChecks, label: '20 questions' },
+              { icon: ListChecks, label: '15 questions' },
               { icon: Users2, label: '6 personas' },
               { icon: LayoutDashboard, label: '4 role types' },
             ].map(({ icon: Icon, label }) => (
