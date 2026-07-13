@@ -18,6 +18,7 @@ export default function ResultsPage() {
         name: state.userName,
         email: state.userEmail,
         role: state.userRole,
+        filledFor: state.filledFor,
         personaScores: state.scores,
         roleScores: state.roleScores,
         topPersona,
@@ -32,6 +33,8 @@ export default function ResultsPage() {
       roleScores={state.roleScores}
       userName={state.userName}
       userEmail={state.userEmail}
+      userRole={state.userRole}
+      filledFor={state.filledFor}
       activeTip={state.activeTip}
       onSetActiveTip={(i) => dispatch({ type: 'SET_ACTIVE_TIP', payload: i })}
       emailSent={state.emailSent}

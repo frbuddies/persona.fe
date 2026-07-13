@@ -14,6 +14,8 @@ export default function ResultsContent({
   roleScores,
   userName,
   userEmail,
+  userRole,
+  filledFor,
   activeTip = 0,
   onSetActiveTip,
   emailSent,
@@ -38,7 +40,7 @@ export default function ResultsContent({
   const lowP = sortedP.filter((prof) => pct(prof, maxP) < 20);
 
   const handleDownloadPDF = () => {
-    const html = buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S: { userName, userEmail } });
+    const html = buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S: { userName, userEmail, filledFor } });
     const iframe = document.createElement('iframe');
     iframe.style.position = 'absolute';
     iframe.style.left = '-9999px';
@@ -80,7 +82,7 @@ export default function ResultsContent({
     iframe.style.border = 'none';
     document.body.appendChild(iframe);
     const idoc = iframe.contentDocument || iframe.contentWindow.document;
-    const html = buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S: { userName, userEmail } });
+    const html = buildEmailHTML({ sortedP, maxP, pri, sortedR, maxR, priRole, S: { userName, userEmail, filledFor } });
     idoc.open();
     idoc.write(html);
     idoc.close();
@@ -136,11 +138,20 @@ export default function ResultsContent({
 
       {userName && (
         <div style={{
-          textAlign: 'center', marginBottom: '16px', fontSize: '13px', color: '#9aa0b8',
+          textAlign: 'center', marginBottom: '16px', fontSize: '16px', color: '#4a5070',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
         }}>
           <Users size={14} />
           Results for <strong style={{ color: '#4a5070' }}>{userName}</strong>
+          {filledFor && (
+            <span style={{
+              fontSize: '10px', background: '#eaf1f8', color: '#1a5276',
+              borderRadius: '6px', padding: '2px 8px', fontWeight: '600',
+              textTransform: 'capitalize',
+            }}>
+              {filledFor}
+            </span>
+          )}
         </div>
       )}
 
@@ -160,7 +171,7 @@ export default function ResultsContent({
           <div style={{
             display: isDesktop ? 'none' : 'inline-block',
             background: '#eaf1f8', color: '#1a5276',
-            fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em',
+            fontSize: '18px', fontWeight: '700', letterSpacing: '0.12em',
             textTransform: 'uppercase', padding: '7px 18px', borderRadius: '20px',
             marginBottom: '20px',
           }}>
@@ -169,13 +180,13 @@ export default function ResultsContent({
           </div>
           <PersonaIconDisplay icon={getPersonaIcon(pri.id)} accent={pri.accent} size={isDesktop ? 64 : 56} />
           <h1 style={{
-            fontSize: 'clamp(24px, 4vw, 40px)', fontWeight: '800', color: '#0f1628',
+            fontSize: 'clamp(30px, 5vw, 48px)', fontWeight: '800', color: '#0f1628',
             marginBottom: '4px', letterSpacing: '-0.5px', marginTop: '12px',
           }}>
             {pri.name}
           </h1>
           <div style={{
-            fontSize: '11px', color: pri.accent, letterSpacing: '0.18em',
+            fontSize: '18px', color: pri.accent, letterSpacing: '0.18em',
             textTransform: 'uppercase', fontWeight: '700',
           }}>
             {pri.tagline}
@@ -185,7 +196,7 @@ export default function ResultsContent({
           <div style={{
             display: isDesktop ? 'inline-block' : 'none',
             background: '#eaf1f8', color: '#1a5276',
-            fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em',
+            fontSize: '18px', fontWeight: '700', letterSpacing: '0.12em',
             textTransform: 'uppercase', padding: '7px 18px', borderRadius: '20px',
             marginBottom: '16px',
           }}>
@@ -193,7 +204,7 @@ export default function ResultsContent({
             Your Primary Seller Persona
           </div>
           <p style={{
-            fontSize: '15px', color: '#4a5070', lineHeight: '1.85',
+            fontSize: '18px', color: '#4a5070', lineHeight: '1.85',
           }}>
             {pri.desc}
           </p>
@@ -216,17 +227,17 @@ export default function ResultsContent({
         </Card>
         <Card>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <TrendingUp size={16} color="#b0b8cc" />
+            <TrendingUp size={16} color="#4a5070" />
             <Overline>Growth Opportunities</Overline>
           </div>
-          <BulletList items={pri.growth} color="#b0b8cc" dim />
+          <BulletList items={pri.growth} color="#4a5070" dim />
         </Card>
       </div>
 
       {/* ── Tips ── */}
       <div style={{ marginBottom: '44px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-          <Lightbulb size={16} color="#9aa0b8" />
+          <Lightbulb size={16} color="#4a5070" />
           <Overline>Actionable Development Tips</Overline>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
@@ -242,13 +253,13 @@ export default function ResultsContent({
           padding: isDesktop ? '24px 26px' : '20px',
         }}>
           <div style={{
-            fontSize: '15px', fontWeight: '700', color: '#0f1628', marginBottom: '10px',
+            fontSize: '18px', fontWeight: '700', color: '#0f1628', marginBottom: '10px',
             display: 'flex', alignItems: 'center', gap: '8px',
           }}>
             <Lightbulb size={18} color="#1a5276" />
             {pri.tips[activeTip].label}
           </div>
-          <p style={{ fontSize: '14px', color: '#4a5070', lineHeight: '1.85', margin: 0 }}>
+          <p style={{ fontSize: '17px', color: '#4a5070', lineHeight: '1.85', margin: 0 }}>
             {pri.tips[activeTip].text}
           </p>
         </div>
@@ -263,17 +274,17 @@ export default function ResultsContent({
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <BarChart3 size={16} color="#9aa0b8" />
+            <BarChart3 size={16} color="#4a5070" />
             <Overline>Your Persona Fingerprint</Overline>
           </div>
-          <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '16px', lineHeight: '1.65' }}>
+          <p style={{ fontSize: '16px', color: '#4a5070', marginBottom: '16px', lineHeight: '1.65' }}>
             How strongly each of the 6 personas showed up in your answers
           </p>
           <RadarChart items={sortedP} maxScore={maxP} accent={pri.accent} />
         </div>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-            <Target size={16} color="#9aa0b8" />
+            <Target size={16} color="#4a5070" />
             <Overline>All Persona Scores</Overline>
           </div>
           <div style={{
@@ -288,7 +299,7 @@ export default function ResultsContent({
                 name={prof.short || prof.name}
                 score={prof.score}
                 pct={pct(prof, maxP)}
-                accent={prof.accent || '#b0bdd4'}
+                accent={prof.accent || '#2a2d44'}
                 isPrimary={i === 0}
                 isLow={pct(prof, maxP) < 20}
               />
@@ -301,10 +312,10 @@ export default function ResultsContent({
       <Divider />
       <div style={{ marginBottom: '36px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <BookOpen size={16} color="#9aa0b8" />
+          <BookOpen size={16} color="#4a5070" />
           <Overline>Your Most Likely Sales Role Match</Overline>
         </div>
-        <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '18px', lineHeight: '1.65' }}>
+        <p style={{ fontSize: '16px', color: '#4a5070', marginBottom: '18px', lineHeight: '1.65' }}>
           Based on your persona profile, here is how your natural style maps to the four sales role types — and which role is your best fit.
         </p>
         <div style={{
@@ -316,7 +327,7 @@ export default function ResultsContent({
         }}>
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontSize: '10px', fontWeight: '700', letterSpacing: '0.12em',
+            fontSize: '18px', fontWeight: '700', letterSpacing: '0.12em',
             textTransform: 'uppercase', padding: '5px 14px', borderRadius: '20px',
             background: priRole.accent, color: '#fff', marginBottom: '18px',
           }}>
@@ -327,17 +338,17 @@ export default function ResultsContent({
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', marginBottom: '4px' }}>{priRole.name}</div>
               <div style={{
-                fontSize: '11px', color: priRole.accent, letterSpacing: '0.16em',
+                fontSize: '18px', color: priRole.accent, letterSpacing: '0.16em',
                 textTransform: 'uppercase', fontWeight: '700', marginBottom: '10px',
               }}>
                 {priRole.tagline}
               </div>
-              <p style={{ fontSize: '14px', color: '#4a5070', lineHeight: '1.8', margin: 0 }}>{priRole.desc}</p>
+              <p style={{ fontSize: '17px', color: '#4a5070', lineHeight: '1.8', margin: 0 }}>{priRole.desc}</p>
             </div>
           </div>
           <div>
             <div style={{
-              fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase',
+              fontSize: '18px', letterSpacing: '0.16em', textTransform: 'uppercase',
               color: '#0f1628', fontWeight: '700', marginBottom: '12px',
             }}>
               Key Characteristics
@@ -349,10 +360,10 @@ export default function ResultsContent({
             }}>
               {priRole.characteristics.map((c, i) => (
                 <div key={i} style={{
-                  fontSize: '13px', color: '#2a2d44',
+                  fontSize: '16px', color: '#2a2d44',
                   display: 'flex', gap: '8px', alignItems: 'flex-start',
                 }}>
-                  <span style={{ color: priRole.accent, fontSize: '8px', marginTop: '5px', flexShrink: 0 }}>◆</span>
+                  <span style={{ color: priRole.accent, fontSize: '14px', marginTop: '5px', flexShrink: 0 }}>◆</span>
                   {c}
                 </div>
               ))}
@@ -363,12 +374,12 @@ export default function ResultsContent({
             border: '1px solid #dde8f0', marginTop: '18px',
           }}>
             <div style={{
-              fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase',
+              fontSize: '18px', letterSpacing: '0.16em', textTransform: 'uppercase',
               color: '#0f1628', fontWeight: '700', marginBottom: '6px',
             }}>
               Role Impact
             </div>
-            <p style={{ fontSize: '13px', color: '#4a5070', lineHeight: '1.7', margin: 0 }}>{priRole.impact}</p>
+            <p style={{ fontSize: '16px', color: '#4a5070', lineHeight: '1.7', margin: 0 }}>{priRole.impact}</p>
           </div>
         </div>
       </div>
@@ -379,10 +390,10 @@ export default function ResultsContent({
           <Divider />
           <div style={{ marginBottom: '36px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-              <Target size={16} color="#9aa0b8" />
+              <Target size={16} color="#4a5070" />
               <Overline>Stretch Edges — Lower Alignment</Overline>
             </div>
-            <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '14px', lineHeight: '1.65' }}>
+            <p style={{ fontSize: '16px', color: '#4a5070', marginBottom: '14px', lineHeight: '1.65' }}>
               These personas showed little alignment. They may represent blind spots — or simply approaches outside your current style.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -393,10 +404,10 @@ export default function ResultsContent({
                   display: 'flex', alignItems: 'center', gap: '10px',
                   boxShadow: '0 1px 2px rgba(0,0,0,0.02)',
                 }}>
-                  <PersonaIconDisplay icon={getPersonaIcon(prof.id)} accent="#c8cce0" size={16} />
+                  <PersonaIconDisplay icon={getPersonaIcon(prof.id)} accent="#4a5070" size={16} />
                   <div>
-                    <div style={{ fontSize: '13px', color: '#2a2d44', fontWeight: '500' }}>{prof.name}</div>
-                    <div style={{ fontSize: '11px', color: '#9aa0b8', fontWeight: '500' }}>Stretch opportunity</div>
+                    <div style={{ fontSize: '16px', color: '#2a2d44', fontWeight: '600' }}>{prof.name}</div>
+                    <div style={{ fontSize: '18px', color: '#4a5070', fontWeight: '600' }}>Stretch opportunity</div>
                   </div>
                 </div>
               ))}
@@ -409,7 +420,7 @@ export default function ResultsContent({
       <Divider />
       <div style={{ marginBottom: '36px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-          <Target size={16} color="#9aa0b8" />
+          <Target size={16} color="#4a5070" />
           <Overline>All Role Scores</Overline>
         </div>
         <div style={{
@@ -424,7 +435,7 @@ export default function ResultsContent({
               name={role.name}
               score={role.score}
               pct={pct(role, maxR)}
-              accent={role.accent || '#b0bdd4'}
+              accent={role.accent || '#2a2d44'}
               isPrimary={i === 0}
               primaryLabel="MATCH"
             />
@@ -438,7 +449,7 @@ export default function ResultsContent({
           <Divider />
           <div style={{ marginBottom: '44px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-              <Download size={16} color="#9aa0b8" />
+              <Download size={16} color="#4a5070" />
               <Overline>Download or Share Your Results</Overline>
             </div>
             {emailSent ? (
@@ -449,7 +460,7 @@ export default function ResultsContent({
               }}>
                 <div style={{ fontSize: '28px', marginBottom: '10px' }}>✅</div>
                 <div style={{ fontSize: '16px', fontWeight: '700', color: '#1e8449', marginBottom: '6px' }}>PDF downloaded!</div>
-                <p style={{ fontSize: '13px', color: '#5a6070', marginBottom: '18px' }}>
+                <p style={{ fontSize: '16px', color: '#5a6070', marginBottom: '18px' }}>
                   Your results PDF has been downloaded. You can also share it using the button below.
                 </p>
                 <Button variant="outline" onClick={handleShare} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -462,10 +473,10 @@ export default function ResultsContent({
                 padding: isDesktop ? '28px 30px' : '24px',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
               }}>
-                <div style={{ fontSize: '14px', color: '#0f1628', fontWeight: '600', marginBottom: '4px' }}>
+                <div style={{ fontSize: '17px', color: '#0f1628', fontWeight: '600', marginBottom: '4px' }}>
                   Download your results as a PDF or share them via email.
                 </div>
-                <div style={{ fontSize: '13px', color: '#6a7090', marginBottom: '20px' }}>
+                <div style={{ fontSize: '16px', color: '#2a2d44', marginBottom: '20px' }}>
                   The PDF includes your full assessment results — ready to print, save, or send.
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -486,10 +497,10 @@ export default function ResultsContent({
       <Divider />
       <div style={{ marginBottom: '36px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <BookOpen size={16} color="#9aa0b8" />
+          <BookOpen size={16} color="#4a5070" />
           <Overline>All Six Seller Personas — Reference Guide</Overline>
         </div>
-        <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '18px', lineHeight: '1.65' }}>
+        <p style={{ fontSize: '16px', color: '#4a5070', marginBottom: '18px', lineHeight: '1.65' }}>
           A summary of all six personas so you can see where you landed — and what each of the others represents.
         </p>
         <div style={{
@@ -514,10 +525,10 @@ export default function ResultsContent({
       <Divider />
       <div style={{ marginBottom: '44px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-          <BookOpen size={16} color="#9aa0b8" />
+          <BookOpen size={16} color="#4a5070" />
           <Overline>All Four Sales Roles — Reference Guide</Overline>
         </div>
-        <p style={{ fontSize: '13px', color: '#9aa0b8', marginBottom: '18px', lineHeight: '1.65' }}>
+        <p style={{ fontSize: '16px', color: '#4a5070', marginBottom: '18px', lineHeight: '1.65' }}>
           A summary of the four sales role types so you understand the full landscape of how seller responsibilities are defined.
         </p>
         <div style={{
@@ -546,7 +557,7 @@ export default function ResultsContent({
           <Button onClick={onRetake} style={{ minWidth: '200px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
             <RotateCcw size={16} /> Retake Assessment
           </Button>
-          <div style={{ fontSize: '11px', color: '#c0c6d8', marginTop: '12px', fontWeight: '500' }}>
+          <div style={{ fontSize: '18px', color: '#2a2d44', marginTop: '12px', fontWeight: '600' }}>
             RedRock Sales Assessment · 6 Personas · 4 Sales Roles
           </div>
         </div>
@@ -575,7 +586,7 @@ function BulletList({ items, color, dim }) {
     <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
       {items.map((item, i) => (
         <li key={i} style={{
-          fontSize: '13px', color: dim ? '#6a7090' : '#2a2d44',
+          fontSize: '16px', color: dim ? '#2a2d44' : '#2a2d44',
           lineHeight: '1.7', marginBottom: '8px',
           paddingLeft: '18px', position: 'relative',
         }}>
@@ -605,7 +616,7 @@ function PersonaRoleCard({ item, isMe, accent, tag, Icon, characteristics, impac
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: '16px', fontWeight: '700', color: '#0f1628' }}>{item.name}</div>
           <div style={{
-            fontSize: '10px', color: accent, letterSpacing: '0.17em',
+            fontSize: '18px', color: accent, letterSpacing: '0.17em',
             textTransform: 'uppercase', fontWeight: '600', marginTop: '2px',
           }}>
             {item.tagline}
@@ -613,7 +624,7 @@ function PersonaRoleCard({ item, isMe, accent, tag, Icon, characteristics, impac
         </div>
         {isMe && (
           <span style={{
-            fontSize: '9px', background: accent, color: '#fff',
+            fontSize: '14px', background: accent, color: '#fff',
             borderRadius: '6px', padding: '4px 10px', fontWeight: '700',
             flexShrink: 0, letterSpacing: '0.03em',
           }}>
@@ -622,7 +633,7 @@ function PersonaRoleCard({ item, isMe, accent, tag, Icon, characteristics, impac
         )}
       </div>
       <p style={{
-        fontSize: '14px', color: '#4a5070', lineHeight: '1.8',
+        fontSize: '17px', color: '#4a5070', lineHeight: '1.8',
         margin: '0 0 12px 0',
       }}>
         {item.desc}
@@ -630,8 +641,8 @@ function PersonaRoleCard({ item, isMe, accent, tag, Icon, characteristics, impac
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
         {(characteristics || item.strengths).map((s, i) => (
           <span key={i} style={{
-            display: 'inline-block', fontSize: '11px', borderRadius: '20px',
-            padding: '4px 11px', fontWeight: '500', lineHeight: '1.5',
+            display: 'inline-block', fontSize: '18px', borderRadius: '20px',
+            padding: '4px 11px', fontWeight: '600', lineHeight: '1.5',
             color: accent, background: isMe ? '#fff' : '#f8f9fc',
             border: `1px solid ${accent}20`, margin: '2px 2px 2px 0',
           }}>
@@ -645,12 +656,12 @@ function PersonaRoleCard({ item, isMe, accent, tag, Icon, characteristics, impac
           border: '1px solid #eef0f6', marginTop: '14px',
         }}>
           <div style={{
-            fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase',
+            fontSize: '18px', letterSpacing: '0.16em', textTransform: 'uppercase',
             color: '#0f1628', fontWeight: '700', marginBottom: '5px',
           }}>
             Role Impact
           </div>
-          <p style={{ fontSize: '13px', color: '#4a5070', lineHeight: '1.7', margin: 0 }}>{impact}</p>
+          <p style={{ fontSize: '16px', color: '#4a5070', lineHeight: '1.7', margin: 0 }}>{impact}</p>
         </div>
       )}
     </div>

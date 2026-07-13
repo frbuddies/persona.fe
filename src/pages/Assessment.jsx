@@ -30,10 +30,10 @@ export default function AssessmentPage() {
             alignItems: 'center',
             marginTop: '8px',
           }}>
-            <div style={{ fontSize: '12px', color: '#9aa0b8', fontWeight: '500' }}>
+            <div style={{ fontSize: '18px', color: '#4a5070', fontWeight: '600' }}>
               Question <strong style={{ color: '#4a5070' }}>{state.qi + 1}</strong> of {total}
             </div>
-            <div style={{ fontSize: '12px', color: '#b0b8cc', fontWeight: '500' }}>
+            <div style={{ fontSize: '18px', color: '#4a5070', fontWeight: '600' }}>
               {Math.round((state.qi / total) * 100)}% complete
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function AssessmentPage() {
         borderTop: '3px solid #1a5276',
       }}>
         <h2 style={{
-          fontSize: 'clamp(16px, 2.5vw, 21px)',
+          fontSize: 'clamp(20px, 3vw, 25px)',
           fontWeight: '700',
           lineHeight: '1.5',
           marginBottom: '28px',

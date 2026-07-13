@@ -12,7 +12,7 @@ export function Button({ variant = 'primary', disabled, onClick, children, style
       border: 'none',
       borderRadius: '10px',
       padding: '14px 32px',
-      fontSize: '15px',
+      fontSize: '18px',
       fontWeight: '600',
       boxShadow: '0 2px 8px rgba(26,82,118,0.2)',
       cursor: disabled ? 'not-allowed' : 'pointer',
@@ -22,11 +22,11 @@ export function Button({ variant = 'primary', disabled, onClick, children, style
     ghost: {
       background: 'none',
       border: 'none',
-      color: '#9aa0b8',
+      color: '#4a5070',
       cursor: 'pointer',
-      fontSize: '13px',
+      fontSize: '16px',
       padding: '8px 0',
-      fontWeight: '500',
+      fontWeight: '600',
     },
     outline: {
       background: '#fff',
@@ -34,7 +34,7 @@ export function Button({ variant = 'primary', disabled, onClick, children, style
       border: '1.5px solid #1a5276',
       borderRadius: '10px',
       padding: '13px 24px',
-      fontSize: '15px',
+      fontSize: '18px',
       fontWeight: '600',
     },
   };
@@ -78,7 +78,7 @@ export function OptionButton({ active, onClick, children }) {
         background: active ? '#eaf1f8' : '#fff',
         color: active ? '#0f1628' : '#2a2d44',
         cursor: 'pointer',
-        fontSize: '14px',
+        fontSize: '17px',
         lineHeight: '1.65',
         fontFamily: 'inherit',
         boxShadow: active
@@ -126,7 +126,7 @@ export function TipTab({ active, onClick, children }) {
       style={{
         padding: '8px 16px',
         borderRadius: '24px',
-        fontSize: '12px',
+        fontSize: '18px',
         fontWeight: '600',
         cursor: 'pointer',
         border: `1.5px solid ${active ? '#1a5276' : '#e4e9f2'}`,

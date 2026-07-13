@@ -9,7 +9,7 @@ const styles = {
     transition: 'box-shadow 0.2s, transform 0.2s',
   },
   overline: {
-    fontSize: '11px',
+    fontSize: '18px',
     letterSpacing: '0.18em',
     textTransform: 'uppercase',
     color: '#0f1628',
@@ -25,7 +25,7 @@ const styles = {
     padding: '12px 16px',
     border: '1.5px solid #e0e3ef',
     borderRadius: '10px',
-    fontSize: '15px',
+    fontSize: '18px',
     fontFamily: 'inherit',
     color: '#0f1628',
     background: '#fff',
@@ -83,16 +83,16 @@ export function FieldInput({ value, onChange, placeholder, type = 'text', ...pro
 }
 
 export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) {
-  const labelColor = isPrimary ? '#0f1628' : isLow ? '#c8cce0' : '#6a7090';
-  const barColor = isPrimary ? accent : isLow ? '#dde2ef' : '#b0bdd4';
+  const labelColor = isPrimary ? '#0f1628' : isLow ? '#4a5070' : '#2a2d44';
+  const barColor = isPrimary ? accent : isLow ? '#dde2ef' : '#2a2d44';
   return (
     <div style={styles.scoreRow}>
       <div style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        {Icon ? <Icon size={15} color={isPrimary ? accent : '#6a7090'} /> : null}
+        {Icon ? <Icon size={15} color={isPrimary ? accent : '#2a2d44'} /> : null}
       </div>
       <div style={{
         minWidth: '130px',
-        fontSize: '12px',
+        fontSize: '18px',
         color: labelColor,
         fontWeight: isPrimary ? '700' : '500',
         flexShrink: 0,
@@ -104,7 +104,7 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
         {name}
         {isPrimary && (
           <span style={{
-            fontSize: '8px',
+            fontSize: '14px',
             background: accent,
             color: '#fff',
             borderRadius: '4px',
@@ -128,8 +128,8 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
       <div style={{
         width: '30px',
         textAlign: 'right',
-        fontSize: '11px',
-        color: '#6a7090',
+        fontSize: '18px',
+        color: '#2a2d44',
         flexShrink: 0,
         fontWeight: isPrimary ? '700' : '500',
         lineHeight: '1.3',
@@ -157,7 +157,7 @@ export function SectionTitle({ children, subtitle }) {
     <div style={{ marginBottom: '20px' }}>
       <Overline>{children}</Overline>
       {subtitle && (
-        <p style={{ fontSize: '13px', color: '#9aa0b8', marginTop: '-6px', lineHeight: '1.65' }}>
+        <p style={{ fontSize: '16px', color: '#4a5070', marginTop: '-6px', lineHeight: '1.65' }}>
           {subtitle}
         </p>
       )}

@@ -8,6 +8,7 @@ const initialState = {
   userName: '',
   userEmail: '',
   userRole: '',
+  filledFor: '',
   qi: 0,
   answers: {},
   selected: null,
@@ -26,6 +27,8 @@ function reducer(state, action) {
       return { ...state, userEmail: action.payload };
     case 'SET_ROLE':
       return { ...state, userRole: action.payload };
+    case 'SET_FILLED_FOR':
+      return { ...state, filledFor: action.payload };
     case 'SELECT_OPTION':
       return { ...state, selected: action.payload };
     case 'NEXT_QUESTION': {

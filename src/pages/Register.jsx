@@ -81,18 +81,18 @@ export default function RegisterPage() {
             <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
               Registration Successful
             </h1>
-            <p style={{ fontSize: '14px', color: '#9aa0b8', margin: 0 }}>
+            <p style={{ fontSize: '17px', color: '#4a5070', margin: 0 }}>
               Your account has been created
             </p>
           </div>
 
           <div style={{ marginBottom: '18px' }}>
-            <label style={{ fontSize: '12px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '18px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Client ID
             </label>
             <div style={{
               padding: '12px 16px', background: '#f8f9fc', borderRadius: '10px',
-              border: '1.5px solid #e0e3ef', fontSize: '14px', color: '#0f1628',
+              border: '1.5px solid #e0e3ef', fontSize: '17px', color: '#0f1628',
               fontFamily: 'monospace', wordBreak: 'break-all',
             }}>
               {result.client_id}
@@ -100,7 +100,7 @@ export default function RegisterPage() {
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <label style={{ fontSize: '12px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '18px', fontWeight: '700', color: '#0f1628', marginBottom: '8px', display: 'block', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
               Assessment Link
             </label>
             <div style={{
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             }}>
               <div style={{
                 flex: 1, padding: '12px 16px', background: '#f8f9fc', borderRadius: '10px',
-                border: '1.5px solid #e0e3ef', fontSize: '13px', color: '#1a5276',
+                border: '1.5px solid #e0e3ef', fontSize: '16px', color: '#1a5276',
                 wordBreak: 'break-all', lineHeight: '1.5',
               }}>
                 {assessmentLink}
@@ -128,7 +128,7 @@ export default function RegisterPage() {
               </button>
             </div>
             {copied && (
-              <p style={{ fontSize: '12px', color: '#27ae60', marginTop: '6px', fontWeight: '600' }}>
+              <p style={{ fontSize: '18px', color: '#27ae60', marginTop: '6px', fontWeight: '600' }}>
                 Link copied to clipboard!
               </p>
             )}
@@ -167,7 +167,7 @@ export default function RegisterPage() {
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
-            color: '#1a5276', fontSize: '10px', fontWeight: '700',
+            color: '#1a5276', fontSize: '18px', fontWeight: '700',
             letterSpacing: '0.15em', textTransform: 'uppercase',
             padding: '7px 16px', borderRadius: '20px',
             marginBottom: '16px',
@@ -178,13 +178,13 @@ export default function RegisterPage() {
           <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
             Sign Up
           </h1>
-          <p style={{ fontSize: '14px', color: '#9aa0b8', margin: 0 }}>
+          <p style={{ fontSize: '17px', color: '#4a5070', margin: 0 }}>
             Create an account to get your assessment link
           </p>
         </div>
 
         <div style={{ marginBottom: '18px' }}>
-          <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+          <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
             Email
           </label>
           <FieldInput
@@ -196,7 +196,7 @@ export default function RegisterPage() {
         </div>
 
         <div style={{ marginBottom: '4px' }}>
-          <label style={{ fontSize: '13px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+          <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
             Password
           </label>
           <div style={{ position: 'relative' }}>
@@ -211,7 +211,7 @@ export default function RegisterPage() {
               onClick={() => setShowPw(!showPw)}
               style={{
                 position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)',
-                background: 'none', border: 'none', cursor: 'pointer', color: '#b0b8cc', padding: '4px',
+                background: 'none', border: 'none', cursor: 'pointer', color: '#4a5070', padding: '4px',
               }}
             >
               {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -221,7 +221,7 @@ export default function RegisterPage() {
 
         {error && (
           <div style={{
-            fontSize: '13px', color: '#d32f2f', marginTop: '14px',
+            fontSize: '16px', color: '#d32f2f', marginTop: '14px',
             padding: '10px 14px', background: '#fef2f2', borderRadius: '8px',
             border: '1px solid #fecaca',
           }}>

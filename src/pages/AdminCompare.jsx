@@ -56,14 +56,14 @@ export default function AdminCompare() {
 
   if (!items.length) {
     return (
-      <div style={{ textAlign: 'center', padding: '80px 20px', color: '#9aa0b8' }}>
+      <div style={{ textAlign: 'center', padding: '80px 20px', color: '#4a5070' }}>
         <div style={{ fontSize: '28px', marginBottom: '12px' }}>⚠</div>
         <div style={{ fontWeight: '700', marginBottom: '6px' }}>No results to compare</div>
         <button onClick={() => navigate('/admin')} style={{
           marginTop: '16px', padding: '10px 24px',
           background: '#1a5276', color: '#fff', border: 'none',
           borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit',
-          fontSize: '13px', fontWeight: '600',
+          fontSize: '16px', fontWeight: '600',
         }}>
           Back to Dashboard
         </button>
@@ -127,7 +127,7 @@ export default function AdminCompare() {
         style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
           background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: '13px', fontWeight: '600', color: '#4a5070',
+          fontSize: '16px', fontWeight: '600', color: '#4a5070',
           fontFamily: 'inherit', marginBottom: '24px', padding: '4px 0',
         }}
         onMouseEnter={(e) => e.target.style.color = '#1a5276'}
@@ -139,7 +139,7 @@ export default function AdminCompare() {
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: '8px',
         background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
-        color: '#1a5276', fontSize: '10px', fontWeight: '700',
+        color: '#1a5276', fontSize: '18px', fontWeight: '700',
         letterSpacing: '0.15em', textTransform: 'uppercase',
         padding: '7px 16px', borderRadius: '20px', marginBottom: '12px',
       }}>
@@ -147,12 +147,12 @@ export default function AdminCompare() {
         Compare Results
       </div>
       <h1 style={{
-        fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: '800',
+        fontSize: 'clamp(30px, 4.5vw, 44px)', fontWeight: '800',
         color: '#0f1628', letterSpacing: '-0.5px', marginBottom: '4px',
       }}>
         Comparing {items.length} Results
       </h1>
-      <p style={{ fontSize: '14px', color: '#9aa0b8', marginBottom: '36px' }}>
+      <p style={{ fontSize: '17px', color: '#4a5070', marginBottom: '36px' }}>
         Side-by-side persona and role scores for selected users
       </p>
 
@@ -185,10 +185,10 @@ export default function AdminCompare() {
                   </div>
                 )}
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1628' }}>
+                  <div style={{ fontSize: '17px', fontWeight: '700', color: '#0f1628' }}>
                     {item.name}
                   </div>
-                  <div style={{ fontSize: '11px', color: '#9aa0b8', wordBreak: 'break-all' }}>
+                  <div style={{ fontSize: '18px', color: '#4a5070', wordBreak: 'break-all' }}>
                     {item.email}
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function AdminCompare() {
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {topP && (
                   <span style={{
-                    fontSize: '9px', fontWeight: '700', letterSpacing: '0.03em',
+                    fontSize: '14px', fontWeight: '700', letterSpacing: '0.03em',
                     background: color, color: '#fff',
                     borderRadius: '6px', padding: '3px 10px',
                   }}>
@@ -205,11 +205,21 @@ export default function AdminCompare() {
                 )}
                 {topR && (
                   <span style={{
-                    fontSize: '9px', fontWeight: '700', letterSpacing: '0.03em',
+                    fontSize: '14px', fontWeight: '700', letterSpacing: '0.03em',
                     background: topR.accent, color: '#fff',
                     borderRadius: '6px', padding: '3px 10px',
                   }}>
                     MATCH: {topR.name}
+                  </span>
+                )}
+                {item.filledFor && (
+                  <span style={{
+                    fontSize: '14px', fontWeight: '700', letterSpacing: '0.03em',
+                    background: '#eaf1f8', color: '#1a5276',
+                    borderRadius: '6px', padding: '3px 10px',
+                    textTransform: 'capitalize',
+                  }}>
+                    {item.filledFor}
                   </span>
                 )}
               </div>
@@ -279,7 +289,7 @@ export default function AdminCompare() {
             const topP = userTopPersona[idx];
             const color = getColorForUser(topP?.accent, idx);
             return (
-              <div key={item._id} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#4a5070' }}>
+              <div key={item._id} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '18px', color: '#4a5070' }}>
                 <svg width="12" height="12">
                   <line x1="1" y1="6" x2="11" y2="6" stroke={color} strokeWidth="3" strokeLinecap="round" strokeDasharray={idx > 0 ? '4,3' : 'none'} />
                   <circle cx="6" cy="6" r="3" fill={color} />
@@ -305,12 +315,12 @@ export default function AdminCompare() {
         </h2>
         <div style={{ overflowX: 'auto' }}>
           <table style={{
-            width: '100%', borderCollapse: 'collapse', fontSize: '13px',
+            width: '100%', borderCollapse: 'collapse', fontSize: '16px',
             minWidth: items.length * 180,
           }}>
             <thead>
               <tr>
-                <th style={{ textAlign: 'left', padding: '10px 12px', color: '#2a2d44', fontWeight: '700', borderBottom: '2px solid #eef0f6', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+                <th style={{ textAlign: 'left', padding: '10px 12px', color: '#2a2d44', fontWeight: '700', borderBottom: '2px solid #eef0f6', fontSize: '18px', letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
                   Persona
                 </th>
                 {items.map((item, idx) => {
@@ -319,7 +329,7 @@ export default function AdminCompare() {
                     <th key={item._id} style={{
                       textAlign: 'center', padding: '10px 12px', color: topP?.accent || '#1a5276',
                       fontWeight: '700', borderBottom: `2px solid ${topP?.accent || '#1a5276'}`,
-                      fontSize: '13px', whiteSpace: 'nowrap',
+                      fontSize: '16px', whiteSpace: 'nowrap',
                     }}>
                       {item.name}
                     </th>
@@ -338,7 +348,7 @@ export default function AdminCompare() {
                       fontWeight: '600', color: '#2a2d44', whiteSpace: 'nowrap',
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Icon size={16} color={persona?.accent || '#b0bdd4'} />
+                        <Icon size={16} color={persona?.accent || '#2a2d44'} />
                         {persona?.name || pid}
                       </div>
                     </td>
@@ -360,19 +370,19 @@ export default function AdminCompare() {
                             }}>
                               <div style={{
                                 height: '100%', borderRadius: '3px',
-                                background: isTop ? (persona?.accent || '#1a5276') : '#b0bdd4',
+                                background: isTop ? (persona?.accent || '#1a5276') : '#2a2d44',
                                 width: `${pct2}%`, transition: 'width 0.4s',
                               }} />
                             </div>
                             <span style={{
                               fontWeight: isTop ? '700' : '400',
-                              color: isTop ? '#0f1628' : '#6a7090',
+                              color: isTop ? '#0f1628' : '#2a2d44',
                             }}>
                               {score}
                             </span>
                             {isTop && (
                               <span style={{
-                                fontSize: '8px', fontWeight: '700', letterSpacing: '0.05em',
+                                fontSize: '14px', fontWeight: '700', letterSpacing: '0.05em',
                                 color: '#fff', background: persona?.accent || '#1a5276',
                                 borderRadius: '4px', padding: '2px 6px', lineHeight: '1.3',
                               }}>
@@ -405,12 +415,12 @@ export default function AdminCompare() {
         </h2>
         <div style={{ overflowX: 'auto' }}>
           <table style={{
-            width: '100%', borderCollapse: 'collapse', fontSize: '13px',
+            width: '100%', borderCollapse: 'collapse', fontSize: '16px',
             minWidth: items.length * 180,
           }}>
             <thead>
               <tr>
-                <th style={{ textAlign: 'left', padding: '10px 12px', color: '#2a2d44', fontWeight: '700', borderBottom: '2px solid #eef0f6', fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+                <th style={{ textAlign: 'left', padding: '10px 12px', color: '#2a2d44', fontWeight: '700', borderBottom: '2px solid #eef0f6', fontSize: '18px', letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
                   Role
                 </th>
                 {items.map((item, idx) => {
@@ -419,7 +429,7 @@ export default function AdminCompare() {
                     <th key={item._id} style={{
                       textAlign: 'center', padding: '10px 12px', color: topR?.accent || '#8e44ad',
                       fontWeight: '700', borderBottom: `2px solid ${topR?.accent || '#8e44ad'}`,
-                      fontSize: '13px', whiteSpace: 'nowrap',
+                      fontSize: '16px', whiteSpace: 'nowrap',
                     }}>
                       {item.name}
                     </th>
@@ -438,7 +448,7 @@ export default function AdminCompare() {
                       fontWeight: '600', color: '#2a2d44', whiteSpace: 'nowrap',
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Icon size={16} color={role?.accent || '#b0bdd4'} />
+                        <Icon size={16} color={role?.accent || '#2a2d44'} />
                         {role?.name || rid}
                       </div>
                     </td>
@@ -461,19 +471,19 @@ export default function AdminCompare() {
                             }}>
                               <div style={{
                                 height: '100%', borderRadius: '3px',
-                                background: isTop ? (role?.accent || '#8e44ad') : '#b0bdd4',
+                                background: isTop ? (role?.accent || '#8e44ad') : '#2a2d44',
                                 width: `${pct2}%`, transition: 'width 0.4s',
                               }} />
                             </div>
                             <span style={{
                               fontWeight: isTop ? '700' : '400',
-                              color: isTop ? '#0f1628' : '#6a7090',
+                              color: isTop ? '#0f1628' : '#2a2d44',
                             }}>
                               {score}
                             </span>
                             {isTop && (
                               <span style={{
-                                fontSize: '8px', fontWeight: '700', letterSpacing: '0.05em',
+                                fontSize: '14px', fontWeight: '700', letterSpacing: '0.05em',
                                 color: '#fff', background: role?.accent || '#8e44ad',
                                 borderRadius: '4px', padding: '2px 6px', lineHeight: '1.3',
                               }}>
