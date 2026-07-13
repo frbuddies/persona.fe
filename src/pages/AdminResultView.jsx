@@ -22,7 +22,7 @@ export default function AdminResultView() {
             marginTop: '16px', padding: '10px 24px',
             background: '#1a5276', color: '#fff', border: 'none',
             borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit',
-            fontSize: '16px', fontWeight: '600',
+            fontSize: '15px', fontWeight: '600',
           }}
         >
           Back to Dashboard
@@ -38,7 +38,7 @@ export default function AdminResultView() {
         style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
           background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: '16px', fontWeight: '600', color: '#4a5070',
+          fontSize: '15px', fontWeight: '600', color: '#4a5070',
           fontFamily: 'inherit', marginBottom: '24px', padding: '4px 0',
         }}
         onMouseEnter={(e) => e.target.style.color = '#1a5276'}

@@ -33,7 +33,7 @@ export default function IntroPage() {
             gap: '8px',
             background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
             color: '#1a5276',
-            fontSize: '18px',
+            fontSize: '15px',
             fontWeight: '700',
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
@@ -45,7 +45,7 @@ export default function IntroPage() {
             RedRock Sales Assessment
           </div>
           <h1 style={{
-            fontSize: 'clamp(38px, 6vw, 60px)',
+            fontSize: 'clamp(35px, 6vw, 57px)',
             fontWeight: '800',
             lineHeight: '1.08',
             color: '#0f1628',
@@ -54,7 +54,7 @@ export default function IntroPage() {
             Which Seller<br />Are You?
           </h1>
           <p style={{
-            fontSize: '16px',
+            fontSize: '15px',
             lineHeight: '1.85',
             color: '#4a5070',
             maxWidth: '460px',
@@ -81,7 +81,7 @@ export default function IntroPage() {
                 }}>
                   <Icon size={16} />
                 </div>
-                <span style={{ fontSize: '16px', fontWeight: '600', color: '#4a5070' }}>{label}</span>
+                <span style={{ fontSize: '15px', fontWeight: '600', color: '#4a5070' }}>{label}</span>
               </div>
             ))}
           </div>
@@ -134,7 +134,7 @@ function FormContent({ state, dispatch, canStart }) {
   return (
     <>
       <div style={{
-        fontSize: '18px',
+        fontSize: '15px',
         letterSpacing: '0.18em',
         textTransform: 'uppercase',
         color: '#0f1628',
@@ -145,7 +145,7 @@ function FormContent({ state, dispatch, canStart }) {
       </div>
       <div style={{ marginBottom: '20px' }}>
         <label style={{
-          fontSize: '16px', fontWeight: '600', color: '#2a2d44',
+          fontSize: '15px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
           Name
@@ -158,7 +158,7 @@ function FormContent({ state, dispatch, canStart }) {
       </div>
       <div style={{ marginBottom: '20px' }}>
         <label style={{
-          fontSize: '16px', fontWeight: '600', color: '#2a2d44',
+          fontSize: '15px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
           Email
@@ -172,7 +172,7 @@ function FormContent({ state, dispatch, canStart }) {
       </div>
       <div style={{ marginBottom: '4px' }}>
         <label style={{
-          fontSize: '16px', fontWeight: '600', color: '#2a2d44',
+          fontSize: '15px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
           Role
@@ -185,7 +185,7 @@ function FormContent({ state, dispatch, canStart }) {
       </div>
       <div style={{ marginBottom: '4px' }}>
         <label style={{
-          fontSize: '16px', fontWeight: '600', color: '#2a2d44',
+          fontSize: '15px', fontWeight: '600', color: '#2a2d44',
           marginBottom: '6px', display: 'block',
         }}>
           Filling for
@@ -204,7 +204,7 @@ function FormContent({ state, dispatch, canStart }) {
                 borderColor: state.filledFor === option ? '#1a5276' : '#e0e3ef',
                 background: state.filledFor === option ? '#eaf1f8' : '#fff',
                 color: state.filledFor === option ? '#1a5276' : '#4a5070',
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: state.filledFor === option ? '700' : '500',
                 fontFamily: 'inherit',
                 cursor: 'pointer',
@@ -223,7 +223,7 @@ function FormContent({ state, dispatch, canStart }) {
           ))}
         </div>
       </div>
-      <p style={{ fontSize: '18px', color: '#4a5070', marginTop: '12px' }}>
+      <p style={{ fontSize: '15px', color: '#4a5070', marginTop: '12px' }}>
         Your email is used only to send your results. It is never shared.
       </p>
       <div style={{ marginTop: '26px' }}>
@@ -246,13 +246,13 @@ function SectionHeader({ title, subtitle }) {
   return (
     <div style={{ marginBottom: '22px' }}>
       <h2 style={{
-        fontSize: '18px', fontWeight: '700', color: '#0f1628',
+        fontSize: '15px', fontWeight: '700', color: '#0f1628',
         marginBottom: '6px',
       }}>
         {title}
       </h2>
       {subtitle && (
-        <p style={{ fontSize: '17px', color: '#4a5070', lineHeight: '1.65', maxWidth: '580px' }}>
+        <p style={{ fontSize: '16px', color: '#4a5070', lineHeight: '1.65', maxWidth: '580px' }}>
           {subtitle}
         </p>
       )}
@@ -328,13 +328,13 @@ function PreviewCard({ item: it, Icon }) {
           {Icon && <Icon size={22} />}
         </div>
         <div>
-          <div style={{ fontSize: '17px', fontWeight: '700', color: '#0f1628' }}>{it.name}</div>
-          <div style={{ fontSize: '18px', color: '#4a5070', marginTop: '2px' }}>{it.tagline}</div>
+          <div style={{ fontSize: '16px', fontWeight: '700', color: '#0f1628' }}>{it.name}</div>
+          <div style={{ fontSize: '15px', color: '#4a5070', marginTop: '2px' }}>{it.tagline}</div>
         </div>
       </div>
       {it.desc && (
         <p style={{
-          fontSize: '16px', color: '#4a5070', lineHeight: '1.7',
+          fontSize: '15px', color: '#4a5070', lineHeight: '1.7',
           margin: 0,
           display: '-webkit-box',
           WebkitLineClamp: '3',
@@ -347,7 +347,7 @@ function PreviewCard({ item: it, Icon }) {
       {it.characteristics && it.characteristics.length > 0 && (
         <div style={{ marginTop: '14px', paddingTop: '14px', borderTop: '1px solid #f0f2f8' }}>
           {it.characteristics.slice(0, 2).map((c, i) => (
-            <div key={i} style={{ fontSize: '18px', color: '#4a5070', lineHeight: '1.55', marginBottom: '4px' }}>
+            <div key={i} style={{ fontSize: '15px', color: '#4a5070', lineHeight: '1.55', marginBottom: '4px' }}>
               {c}
             </div>
           ))}

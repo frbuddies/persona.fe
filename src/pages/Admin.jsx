@@ -104,7 +104,7 @@ export default function AdminPage() {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
-              color: '#1a5276', fontSize: '18px', fontWeight: '700',
+              color: '#1a5276', fontSize: '15px', fontWeight: '700',
               letterSpacing: '0.15em', textTransform: 'uppercase',
               padding: '7px 16px', borderRadius: '20px',
               marginBottom: '16px',
@@ -112,16 +112,16 @@ export default function AdminPage() {
               <Sparkles size={14} />
               RedRock
             </div>
-            <h1 style={{ fontSize: '22px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
+            <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#0f1628', margin: '0 0 4px' }}>
               Admin Login
             </h1>
-            <p style={{ fontSize: '17px', color: '#4a5070', margin: 0 }}>
+            <p style={{ fontSize: '18px', color: '#4a5070', margin: 0 }}>
               Sign in to access the assessment dashboard
             </p>
           </div>
 
           <div style={{ marginBottom: '18px' }}>
-            <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+            <label style={{ fontSize: '18px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
               Email
             </label>
             <FieldInput
@@ -134,7 +134,7 @@ export default function AdminPage() {
           </div>
 
           <div style={{ marginBottom: '4px' }}>
-            <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+            <label style={{ fontSize: '18px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
               Password
             </label>
             <div style={{ position: 'relative' }}>
@@ -160,7 +160,7 @@ export default function AdminPage() {
 
           {loginError && (
             <div style={{
-              fontSize: '16px', color: '#d32f2f', marginTop: '14px',
+              fontSize: '18px', color: '#d32f2f', marginTop: '14px',
               padding: '10px 14px', background: '#fef2f2', borderRadius: '8px',
               border: '1px solid #fecaca',
             }}>
@@ -191,7 +191,7 @@ export default function AdminPage() {
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             background: 'linear-gradient(135deg, #eaf1f8, #dce8f2)',
-            color: '#1a5276', fontSize: '18px', fontWeight: '700',
+            color: '#1a5276', fontSize: '15px', fontWeight: '700',
             letterSpacing: '0.15em', textTransform: 'uppercase',
             padding: '7px 16px', borderRadius: '20px', marginBottom: '12px',
           }}>
@@ -199,12 +199,12 @@ export default function AdminPage() {
             Admin Dashboard
           </div>
           <h1 style={{
-            fontSize: 'clamp(30px, 4.5vw, 44px)', fontWeight: '800',
+            fontSize: 'clamp(27px, 4.5vw, 41px)', fontWeight: '800',
             color: '#0f1628', letterSpacing: '-0.5px', marginBottom: '4px',
           }}>
             All Submitted Results
           </h1>
-          <p style={{ fontSize: '17px', color: '#4a5070' }}>
+          <p style={{ fontSize: '16px', color: '#4a5070' }}>
             {data ? `${data.length} result${data.length !== 1 ? 's' : ''}` : 'Loading...'}
           </p>
           {!isSuperAdmin && clientId && (
@@ -212,10 +212,13 @@ export default function AdminPage() {
               <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1628', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
                 Assessment Link
               </div>
+              <p style={{ fontSize: '16px', color: '#4a5070', margin: '0 0 10px', lineHeight: '1.7' }}>
+                Share this link with anyone you want to take the assessment. Their responses will appear in your dashboard below once completed.
+              </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <div style={{
                   flex: 1, padding: '8px 12px', background: '#f8f9fc', borderRadius: '8px',
-                  border: '1.5px solid #e0e3ef', fontSize: '18px', color: '#1a5276',
+                  border: '1.5px solid #e0e3ef', fontSize: '15px', color: '#1a5276',
                   wordBreak: 'break-all', fontFamily: 'monospace', lineHeight: '1.5',
                 }}>
                   {assessmentLink}
@@ -255,7 +258,7 @@ export default function AdminPage() {
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               background: '#fff', border: '1.5px solid #e4e9f2',
               borderRadius: '10px', padding: '10px 20px',
-              fontSize: '16px', fontWeight: '600', color: '#4a5070',
+              fontSize: '15px', fontWeight: '600', color: '#4a5070',
               cursor: 'pointer', fontFamily: 'inherit',
               transition: 'all 0.2s',
             }}
@@ -299,7 +302,7 @@ export default function AdminPage() {
                       display: 'flex', alignItems: 'center', gap: '10px',
                       width: '100%', padding: '12px 16px',
                       background: 'none', border: 'none', cursor: 'pointer',
-                      fontFamily: 'inherit', fontSize: '16px', fontWeight: '600',
+                      fontFamily: 'inherit', fontSize: '15px', fontWeight: '600',
                       color: '#0f1628', transition: 'all 0.15s', textAlign: 'left',
                     }}
                     onMouseEnter={(e) => e.target.style.background = '#f5f7fb'}
@@ -327,7 +330,7 @@ export default function AdminPage() {
                       display: 'flex', alignItems: 'center', gap: '10px',
                       width: '100%', padding: '12px 16px',
                       background: 'none', border: 'none', cursor: 'pointer',
-                      fontFamily: 'inherit', fontSize: '16px', fontWeight: '600',
+                      fontFamily: 'inherit', fontSize: '15px', fontWeight: '600',
                       color: '#d32f2f', transition: 'all 0.15s', textAlign: 'left',
                     }}
                     onMouseEnter={(e) => e.target.style.background = '#fef2f2'}
@@ -362,14 +365,14 @@ export default function AdminPage() {
         }}>
           <div style={{ fontSize: '28px', marginBottom: '12px' }}>⚠</div>
           <div style={{ fontWeight: '700', marginBottom: '6px' }}>Failed to load results</div>
-          <div style={{ fontSize: '16px', color: '#a05858' }}>{error}</div>
+          <div style={{ fontSize: '15px', color: '#a05858' }}>{error}</div>
           <button
             onClick={load}
             style={{
               marginTop: '16px', padding: '8px 24px',
               background: '#1a5276', color: '#fff', border: 'none',
               borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit',
-              fontSize: '16px', fontWeight: '600',
+              fontSize: '15px', fontWeight: '600',
             }}
           >
             Try Again
@@ -384,10 +387,10 @@ export default function AdminPage() {
           borderRadius: '14px', color: '#4a5070',
         }}>
           <Users size={40} style={{ marginBottom: '12px', opacity: 0.4 }} />
-          <div style={{ fontWeight: '700', fontSize: '16px', color: '#0f1628', marginBottom: '6px' }}>
+          <div style={{ fontWeight: '700', fontSize: '15px', color: '#0f1628', marginBottom: '6px' }}>
             No results yet
           </div>
-          <div style={{ fontSize: '16px' }}>
+          <div style={{ fontSize: '15px' }}>
             Complete the assessment to see your results here.
           </div>
         </div>
@@ -416,7 +419,7 @@ export default function AdminPage() {
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               padding: '14px 28px', borderRadius: '14px',
               background: 'linear-gradient(135deg, #1a5276, #1e6a8a)',
-              color: '#fff', border: 'none', fontSize: '17px', fontWeight: '700',
+              color: '#fff', border: 'none', fontSize: '16px', fontWeight: '700',
               cursor: 'pointer', fontFamily: 'inherit', letterSpacing: '0.02em',
               boxShadow: '0 8px 32px rgba(26,82,118,0.35)',
               transition: 'all 0.2s',
@@ -446,7 +449,7 @@ export default function AdminPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '20px 24px 0',
             }}>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '800', color: '#0f1628' }}>
+              <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: '#0f1628' }}>
                 Change Password
               </h3>
               <button
@@ -460,7 +463,7 @@ export default function AdminPage() {
               {pwChangeSuccess ? (
                 <div>
                   <div style={{
-                    fontSize: '16px', color: '#27ae60', marginBottom: '16px',
+                    fontSize: '15px', color: '#27ae60', marginBottom: '16px',
                     padding: '10px 14px', background: '#f0faf4', borderRadius: '8px',
                     border: '1px solid #b8e6c8',
                   }}>
@@ -472,7 +475,7 @@ export default function AdminPage() {
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                       width: '100%', padding: '10px', borderRadius: '10px',
                       background: '#1a5276', color: '#fff', border: 'none',
-                      fontSize: '16px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit',
+                      fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit',
                     }}
                   >
                     Done
@@ -496,7 +499,7 @@ export default function AdminPage() {
                   }
                 }}>
                   <div style={{ marginBottom: '16px' }}>
-                    <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+                    <label style={{ fontSize: '15px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
                       New Password
                     </label>
                     <div style={{ position: 'relative' }}>
@@ -507,7 +510,7 @@ export default function AdminPage() {
                         placeholder="Enter new password"
                         style={{
                           width: '100%', padding: '10px 14px', borderRadius: '10px',
-                          border: '1.5px solid #dee6f0', fontSize: '17px',
+                          border: '1.5px solid #dee6f0', fontSize: '16px',
                           fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
                           transition: 'border-color 0.2s',
                         }}
@@ -527,7 +530,7 @@ export default function AdminPage() {
                     </div>
                   </div>
                   <div style={{ marginBottom: '16px' }}>
-                    <label style={{ fontSize: '16px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
+                    <label style={{ fontSize: '15px', fontWeight: '600', color: '#2a2d44', marginBottom: '6px', display: 'block' }}>
                       Confirm Password
                     </label>
                     <div style={{ position: 'relative' }}>
@@ -538,7 +541,7 @@ export default function AdminPage() {
                         placeholder="Confirm new password"
                         style={{
                           width: '100%', padding: '10px 14px', borderRadius: '10px',
-                          border: '1.5px solid #dee6f0', fontSize: '17px',
+                          border: '1.5px solid #dee6f0', fontSize: '16px',
                           fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box',
                           transition: 'border-color 0.2s',
                         }}
@@ -559,7 +562,7 @@ export default function AdminPage() {
                   </div>
                   {pwChangeError && (
                     <div style={{
-                      fontSize: '16px', color: '#d32f2f', marginBottom: '14px',
+                      fontSize: '15px', color: '#d32f2f', marginBottom: '14px',
                       padding: '10px 14px', background: '#fef2f2', borderRadius: '8px',
                       border: '1px solid #fecaca',
                     }}>
@@ -574,7 +577,7 @@ export default function AdminPage() {
                       width: '100%', padding: '10px', borderRadius: '10px',
                       background: !newPassword.trim() || !confirmPassword.trim() || pwChangeLoading ? '#4a5070' : '#1a5276',
                       color: '#fff', border: 'none',
-                      fontSize: '16px', fontWeight: '700', cursor: !newPassword.trim() || !confirmPassword.trim() || pwChangeLoading ? 'not-allowed' : 'pointer',
+                      fontSize: '15px', fontWeight: '700', cursor: !newPassword.trim() || !confirmPassword.trim() || pwChangeLoading ? 'not-allowed' : 'pointer',
                       fontFamily: 'inherit', transition: 'all 0.2s',
                     }}
                   >
@@ -642,17 +645,28 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
         .toPdf()
         .get('pdf')
         .then((pdf) => {
+          const cleanup = () => {
+            if (iframe.parentNode) document.body.removeChild(iframe);
+          };
           if (mode === 'download') {
             pdf.save(filename);
+            cleanup();
           } else if (mode === 'share') {
             const blob = pdf.output('blob');
-            const file = new File([blob], filename, { type: 'application/pdf' });
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            if (navigator.share) {
+              const file = new File([blob], filename, { type: 'application/pdf' });
               navigator.share({
                 files: [file],
                 title: 'RedRock Assessment Results',
                 text: `Assessment results for ${item.name}`,
-              });
+              }).catch(() => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+              }).finally(cleanup);
             } else {
               const url = URL.createObjectURL(blob);
               const a = document.createElement('a');
@@ -660,9 +674,12 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
               a.download = filename;
               a.click();
               URL.revokeObjectURL(url);
+              cleanup();
             }
           }
-          document.body.removeChild(iframe);
+        })
+        .catch(() => {
+          if (iframe.parentNode) document.body.removeChild(iframe);
         });
     };
   };
@@ -701,11 +718,11 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
           )}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '16px', fontWeight: '700', color: '#0f1628' }}>
+              <span style={{ fontSize: '15px', fontWeight: '700', color: '#0f1628' }}>
                 {item.name}
               </span>
               <span style={{
-                fontSize: '14px', background: topPersonaData?.accent || '#2a2d44',
+                fontSize: '15px', background: topPersonaData?.accent || '#2a2d44',
                 color: '#fff', borderRadius: '6px', padding: '3px 10px',
                 fontWeight: '700', letterSpacing: '0.03em',
               }}>
@@ -714,7 +731,7 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
             </div>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap',
-              marginTop: '4px', fontSize: '18px', color: '#4a5070',
+              marginTop: '4px', fontSize: '15px', color: '#4a5070',
             }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 <Mail size={12} /> {item.email}
@@ -726,7 +743,7 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
               )}
               {item.filledFor && (
                 <span style={{
-                  display: 'inline-block', fontSize: '10px', fontWeight: '700',
+                  display: 'inline-block', fontSize: '16px', fontWeight: '700',
                   borderRadius: '6px', padding: '2px 8px',
                   background: '#eaf1f8', color: '#1a5276',
                   textTransform: 'capitalize',
@@ -750,7 +767,7 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '5px',
             padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #1a5276',
-            background: '#fff', color: '#1a5276', fontSize: '18px',
+            background: '#fff', color: '#1a5276', fontSize: '15px',
             fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
           }}
           onMouseEnter={(e) => { e.target.style.background = '#eaf1f8'; }}
@@ -763,7 +780,7 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '5px',
             padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #1a5276',
-            background: '#fff', color: '#1a5276', fontSize: '18px',
+            background: '#fff', color: '#1a5276', fontSize: '15px',
             fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
           }}
           onMouseEnter={(e) => { e.target.style.background = '#eaf1f8'; }}
@@ -776,7 +793,7 @@ function ResultCard({ item, isDesktop, selected, onToggle }) {
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '5px',
             padding: '7px 14px', borderRadius: '8px', border: '1.5px solid #4a5070',
-            background: '#fff', color: '#4a5070', fontSize: '18px',
+            background: '#fff', color: '#4a5070', fontSize: '15px',
             fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
           }}
           onMouseEnter={(e) => { e.target.style.background = '#f5f7fb'; }}
@@ -805,7 +822,7 @@ function ScoreTable({ scores, label, accent }) {
   return (
     <div>
       <div style={{
-        fontSize: '18px', letterSpacing: '0.16em', textTransform: 'uppercase',
+        fontSize: '15px', letterSpacing: '0.16em', textTransform: 'uppercase',
         color: '#0f1628', fontWeight: '700', marginBottom: '10px',
       }}>
         {label}
@@ -820,9 +837,9 @@ function ScoreTable({ scores, label, accent }) {
           const isTop = pct2 >= 100;
           return (
             <div key={id} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ width: '20px', textAlign: 'center', fontSize: '17px', flexShrink: 0 }}>{emoji}</span>
+              <span style={{ width: '20px', textAlign: 'center', fontSize: '16px', flexShrink: 0 }}>{emoji}</span>
               <span style={{
-                flex: 1, fontSize: '18px', color: isTop ? '#0f1628' : '#2a2d44',
+                flex: 1, fontSize: '15px', color: isTop ? '#0f1628' : '#2a2d44',
                 fontWeight: isTop ? '700' : '400', minWidth: '100px',
               }}>
                 {name}
@@ -835,7 +852,7 @@ function ScoreTable({ scores, label, accent }) {
                 }} />
               </div>
               <span style={{
-                width: '28px', textAlign: 'right', fontSize: '18px',
+                width: '28px', textAlign: 'right', fontSize: '15px',
                 color: '#4a5070', fontWeight: isTop ? '600' : '400',
               }}>
                 {val}

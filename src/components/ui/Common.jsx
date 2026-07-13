@@ -9,7 +9,7 @@ const styles = {
     transition: 'box-shadow 0.2s, transform 0.2s',
   },
   overline: {
-    fontSize: '18px',
+    fontSize: '15px',
     letterSpacing: '0.18em',
     textTransform: 'uppercase',
     color: '#0f1628',
@@ -25,7 +25,7 @@ const styles = {
     padding: '12px 16px',
     border: '1.5px solid #e0e3ef',
     borderRadius: '10px',
-    fontSize: '18px',
+    fontSize: '15px',
     fontFamily: 'inherit',
     color: '#0f1628',
     background: '#fff',
@@ -92,7 +92,7 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
       </div>
       <div style={{
         minWidth: '130px',
-        fontSize: '18px',
+        fontSize: '15px',
         color: labelColor,
         fontWeight: isPrimary ? '700' : '500',
         flexShrink: 0,
@@ -104,7 +104,7 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
         {name}
         {isPrimary && (
           <span style={{
-            fontSize: '14px',
+            fontSize: '15px',
             background: accent,
             color: '#fff',
             borderRadius: '4px',
@@ -128,7 +128,7 @@ export function ScoreBar({ Icon, name, pct: pctVal, accent, isPrimary, isLow }) 
       <div style={{
         width: '30px',
         textAlign: 'right',
-        fontSize: '18px',
+        fontSize: '15px',
         color: '#2a2d44',
         flexShrink: 0,
         fontWeight: isPrimary ? '700' : '500',
@@ -157,7 +157,7 @@ export function SectionTitle({ children, subtitle }) {
     <div style={{ marginBottom: '20px' }}>
       <Overline>{children}</Overline>
       {subtitle && (
-        <p style={{ fontSize: '16px', color: '#4a5070', marginTop: '-6px', lineHeight: '1.65' }}>
+        <p style={{ fontSize: '15px', color: '#4a5070', marginTop: '-6px', lineHeight: '1.65' }}>
           {subtitle}
         </p>
       )}

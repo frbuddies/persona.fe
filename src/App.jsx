@@ -45,7 +45,7 @@ function Navbar() {
       <Link to="/" style={{
         display: 'flex', alignItems: 'center', gap: '12px',
         textDecoration: 'none', color: '#0f1628',
-        fontSize: '18px', fontWeight: '800', letterSpacing: '-0.3px',
+        fontSize: '15px', fontWeight: '800', letterSpacing: '-0.3px',
       }}>
         <img src={logo} alt="RedRock" style={{ height: '100px', width: 'auto' }} />
         RedRock
@@ -54,7 +54,7 @@ function Navbar() {
         <Link to="/register" style={{
           textDecoration: 'none',
           background: 'linear-gradient(135deg, #1a5276, #1e6a8a)',
-          color: '#fff', fontSize: '16px', fontWeight: '700',
+          color: '#fff', fontSize: '15px', fontWeight: '700',
           padding: '10px 20px', borderRadius: '10px',
           border: 'none', cursor: 'pointer',
           transition: 'opacity 0.2s',
