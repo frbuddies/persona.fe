@@ -268,6 +268,7 @@ function PreviewGrid({ items, getIcon }) {
       display: 'grid',
       gridTemplateColumns: cols,
       gap: '14px',
+      alignItems: 'stretch',
     }}>
       {items.map((item) => {
         const Icon = getIcon ? getIcon(item.id) : null;
@@ -336,10 +337,6 @@ function PreviewCard({ item: it, Icon }) {
         <p style={{
           fontSize: '15px', color: '#4a5070', lineHeight: '1.7',
           margin: 0,
-          display: '-webkit-box',
-          WebkitLineClamp: '3',
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
         }}>
           {it.desc}
         </p>
