@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ArrowLeft, GitCompare } from 'lucide-react';
+import { ArrowLeft, GitCompare, Download } from 'lucide-react';
 import { PERSONAS } from '../data/personas';
 import { ROLES } from '../data/roles';
 import { getPersonaIcon, getRoleIcon } from '../utils/icons';
 import { useBreakpoints } from '../hooks/useMediaQuery';
+import { getSortedPersonas, getSortedRoles, pct } from '../utils/scoring';
+import html2pdf from 'html2pdf.js';
 
 const FALLBACK_COLORS = ['#c0392b', '#27ae60', '#2980b9', '#8e44ad', '#d35400', '#16a085', '#2c3e50', '#7f8c8d'];
 
@@ -53,6 +55,157 @@ export default function AdminCompare() {
   const navigate = useNavigate();
   const { isDesktop } = useBreakpoints();
   const items = location.state || [];
+
+  const generateComparisonPDF = () => {
+    if (!items.length) return;
+    const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const allPersonaRows = PERSONAS.map((persona) => {
+      const scores = items.map((item) => item.personaScores?.[persona.id] || 0);
+      const isTopForAny = items.some((item) => item.topPersona === persona.id);
+      const barColor = isTopForAny ? persona.accent : '#2a2d44';
+      const headerCells = items.map((item) => {
+        const s = item.personaScores?.[persona.id] || 0;
+        const topId = item.topPersona || Object.entries(item.personaScores || {}).sort((a, b) => b[1] - a[1])[0]?.[0];
+        const isTop = topId === persona.id;
+        return `<td style="padding:8px 10px;text-align:center;border-bottom:1px solid #eef0f6;${isTop ? 'background:#eafaf1;' : ''}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="width:100%;max-width:120px;height:6px;background:#eef0f6;border-radius:3px;overflow:hidden;"><div style="height:100%;border-radius:3px;background:${isTop ? persona.accent : '#2a2d44'};width:${items.length > 0 ? Math.round((s / Math.max(...items.flatMap((it) => Object.values(it.personaScores || {})))) * 100) : 0}%;"></div></div>
+            <span style="font-weight:${isTop ? '700' : '400'};color:${isTop ? '#0f1628' : '#2a2d44'}; font-size:15px;">${s}</span>
+            ${isTop ? `<span style="font-size:15px;font-weight:700;letter-spacing:0.05em;color:#fff;background:${persona.accent};border-radius:4px;padding:2px 6px;line-height:1.3;">TOP</span>` : ''}
+          </div>
+        </td>`;
+      }).join('');
+      return `<tr>
+        <td style="padding:10px 12px;border-bottom:1px solid #eef0f6;font-weight:600;color:#2a2d44;white-space:nowrap;">
+          <span style="margin-right:6px;">${persona.emoji}</span>${persona.name}
+        </td>
+        ${headerCells}
+      </tr>`;
+    }).join('');
+
+    const allRoleRows = ROLES.map((role) => {
+      const headerCells = items.map((item) => {
+        const scores = item.roleScores || {};
+        const s = scores[role.id] || 0;
+        const topRoleId = Object.entries(scores).sort((a, b) => b[1] - a[1])[0]?.[0];
+        const isTop = topRoleId === role.id;
+        const maxRoleScore = Math.max(...items.flatMap((it) => Object.values(it.roleScores || {})));
+        return `<td style="padding:8px 10px;text-align:center;border-bottom:1px solid #eef0f6;${isTop ? 'background:#fef2f2;' : ''}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="width:100%;max-width:120px;height:6px;background:#eef0f6;border-radius:3px;overflow:hidden;"><div style="height:100%;border-radius:3px;background:${isTop ? role.accent : '#2a2d44'};width:${maxRoleScore > 0 ? Math.round((s / maxRoleScore) * 100) : 0}%;"></div></div>
+            <span style="font-weight:${isTop ? '700' : '400'};color:${isTop ? '#0f1628' : '#2a2d44'}; font-size:15px;">${s}</span>
+            ${isTop ? `<span style="font-size:15px;font-weight:700;letter-spacing:0.05em;color:#fff;background:${role.accent};border-radius:4px;padding:2px 6px;line-height:1.3;">MATCH</span>` : ''}
+          </div>
+        </td>`;
+      }).join('');
+      return `<tr>
+        <td style="padding:10px 12px;border-bottom:1px solid #eef0f6;font-weight:600;color:#2a2d44;white-space:nowrap;">
+          <span style="margin-right:6px;">${role.emoji}</span>${role.name}
+        </td>
+        ${headerCells}
+      </tr>`;
+    }).join('');
+
+    const summaryCards = items.map((item) => {
+      const sortedP = getSortedPersonas(item.personaScores || {});
+      const topP = sortedP[0] || null;
+      const sortedR = getSortedRoles(item.roleScores || {});
+      const topR = sortedR[0] || null;
+      return `<div style="flex:1;min-width:180px;background:#fff;border:1.5px solid ${topP?.accent || '#dee6f0'}40;border-radius:10px;padding:16px 18px;border-left:4px solid ${topP?.accent || '#dee6f0'};">
+        <div style="font-size:16px;font-weight:700;color:#0f1628;margin-bottom:6px;">${item.name}</div>
+        <div style="font-size:15px;color:#4a5070;margin-bottom:8px;">${item.email}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          ${topP ? `<span style="font-size:15px;font-weight:700;letter-spacing:0.03em;background:${topP.accent};color:#fff;border-radius:6px;padding:3px 10px;">TOP: ${topP.short || topP.name}</span>` : ''}
+          ${topR ? `<span style="font-size:15px;font-weight:700;letter-spacing:0.03em;background:${topR.accent};color:#fff;border-radius:6px;padding:3px 10px;">MATCH: ${topR.name}</span>` : ''}
+          ${item.filledFor ? `<span style="font-size:15px;font-weight:700;letter-spacing:0.03em;background:#eaf1f8;color:#1a5276;border-radius:6px;padding:3px 10px;text-transform:capitalize;">${item.filledFor}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+    const thCells = items.map((item) => `<th style="text-align:center;padding:10px 12px;font-size:15px;white-space:nowrap;font-weight:700;border-bottom:2px solid #eef0f6;">${item.name}</th>`).join('');
+
+    const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>RedRock Comparison</title><style>
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{font-family:system-ui,-apple-system,sans-serif;background:#f4f6fa;color:#1a1a2e;}
+      @media print{body{background:#fff;}.page-wrap{box-shadow:none!important;max-width:100%!important;}}
+    </style></head><body>
+    <div class="page-wrap" style="max-width:780px;margin:0 auto;background:#fff;padding:40px 36px 60px;box-shadow:0 2px 24px rgba(0,0,0,0.07);">
+      <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid #eef0f6;">
+        <div style="font-size:15px;letter-spacing:0.22em;text-transform:uppercase;color:#4a5070;font-weight:600;margin-bottom:10px;">RedRock Sales Assessment</div>
+        <div style="font-size:28px;font-weight:800;color:#0f1628;letter-spacing:-0.5px;margin-bottom:6px;">Comparing ${items.length} Results</div>
+        <div style="font-size:15px;color:#4a5070;">${date}</div>
+      </div>
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:15px;letter-spacing:0.22em;text-transform:uppercase;color:#4a5070;font-weight:600;margin-bottom:14px;">Summary</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">${summaryCards}</div>
+      </div>
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:15px;letter-spacing:0.22em;text-transform:uppercase;color:#4a5070;font-weight:600;margin-bottom:14px;">Persona Scores</div>
+        <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:15px;">
+          <thead><tr>
+            <th style="text-align:left;padding:10px 12px;color:#2a2d44;font-weight:700;border-bottom:2px solid #eef0f6;font-size:15px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">Persona</th>
+            ${thCells}
+          </tr></thead>
+          <tbody>${allPersonaRows}</tbody>
+        </table>
+      </div>
+
+      <div style="border-top:2px solid #eef0f6;margin:32px 0 24px;"></div>
+
+      <div style="margin-bottom:32px;">
+        <div style="font-size:15px;letter-spacing:0.22em;text-transform:uppercase;color:#4a5070;font-weight:600;margin-bottom:14px;">Role Scores</div>
+        <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:15px;">
+          <thead><tr>
+            <th style="text-align:left;padding:10px 12px;color:#2a2d44;font-weight:700;border-bottom:2px solid #eef0f6;font-size:15px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">Role</th>
+            ${thCells}
+          </tr></thead>
+          <tbody>${allRoleRows}</tbody>
+        </table>
+      </div>
+
+      <div style="border-top:1.5px solid #eef0f6;padding-top:22px;margin-top:20px;text-align:center;">
+        <div style="font-size:15px;color:#2a2d44;">RedRock Sales Assessment &middot; 6 Personas &middot; 4 Sales Roles</div>
+      </div>
+    </div></body></html>`;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    iframe.style.top = '0';
+    iframe.style.width = '800px';
+    iframe.style.height = '0';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+    const idoc = iframe.contentDocument || iframe.contentWindow.document;
+    idoc.open();
+    idoc.write(html);
+    idoc.close();
+    const names = items.map((it) => it.name.replace(/\s+/g, '-')).join('-vs-');
+    const filename = `RedRock-Comparison-${names}.pdf`;
+    iframe.onload = () => {
+      html2pdf()
+        .set({
+          margin: [0.4, 0.4, 0.4, 0.4],
+          filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false },
+          jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        })
+        .from(iframe.contentDocument.body)
+        .toPdf()
+        .get('pdf')
+        .then((pdf) => {
+          pdf.save(filename);
+          if (iframe.parentNode) document.body.removeChild(iframe);
+        })
+        .catch(() => {
+          if (iframe.parentNode) document.body.removeChild(iframe);
+        });
+    };
+  };
 
   if (!items.length) {
     return (
@@ -134,6 +287,21 @@ export default function AdminCompare() {
         onMouseLeave={(e) => e.target.style.color = '#4a5070'}
       >
         <ArrowLeft size={16} /> Back to Dashboard
+      </button>
+
+      <button
+        onClick={generateComparisonPDF}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          padding: '8px 16px', borderRadius: '8px', border: '1.5px solid #1a5276',
+          background: '#fff', color: '#1a5276', fontSize: '15px',
+          fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
+          marginLeft: '12px', verticalAlign: 'middle',
+        }}
+        onMouseEnter={(e) => e.target.style.background = '#eaf1f8'}
+        onMouseLeave={(e) => e.target.style.background = '#fff'}
+      >
+        <Download size={14} /> Download PDF
       </button>
 
       <div style={{
