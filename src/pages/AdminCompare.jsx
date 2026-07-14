@@ -275,34 +275,38 @@ export default function AdminCompare() {
 
   return (
     <div>
-      <button
-        onClick={() => navigate('/admin')}
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: '6px',
-          background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: '15px', fontWeight: '600', color: '#4a5070',
-          fontFamily: 'inherit', marginBottom: '24px', padding: '4px 0',
-        }}
-        onMouseEnter={(e) => e.target.style.color = '#1a5276'}
-        onMouseLeave={(e) => e.target.style.color = '#4a5070'}
-      >
-        <ArrowLeft size={16} /> Back to Dashboard
-      </button>
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        marginBottom: '24px',
+      }}>
+        <button
+          onClick={() => navigate('/admin')}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            background: 'none', border: 'none', cursor: 'pointer',
+            fontSize: '15px', fontWeight: '600', color: '#4a5070',
+            fontFamily: 'inherit', padding: '4px 0',
+          }}
+          onMouseEnter={(e) => e.target.style.color = '#1a5276'}
+          onMouseLeave={(e) => e.target.style.color = '#4a5070'}
+        >
+          <ArrowLeft size={16} /> Back to Dashboard
+        </button>
 
-      <button
-        onClick={generateComparisonPDF}
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: '6px',
-          padding: '8px 16px', borderRadius: '8px', border: '1.5px solid #1a5276',
-          background: '#fff', color: '#1a5276', fontSize: '15px',
-          fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
-          marginLeft: '12px', verticalAlign: 'middle',
-        }}
-        onMouseEnter={(e) => e.target.style.background = '#eaf1f8'}
-        onMouseLeave={(e) => e.target.style.background = '#fff'}
-      >
-        <Download size={14} /> Download PDF
-      </button>
+        <button
+          onClick={generateComparisonPDF}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            padding: '8px 16px', borderRadius: '8px', border: '1.5px solid #1a5276',
+            background: '#fff', color: '#1a5276', fontSize: '15px',
+            fontWeight: '600', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+          onMouseEnter={(e) => e.target.style.background = '#eaf1f8'}
+          onMouseLeave={(e) => e.target.style.background = '#fff'}
+        >
+          <Download size={14} /> Download PDF
+        </button>
+      </div>
 
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: '8px',
